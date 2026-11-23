@@ -47,3 +47,13 @@ h3 {
 h4 {
     font-size: clamp(1.25rem, 2.5vw, 1.5rem);
 }
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}

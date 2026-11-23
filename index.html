@@ -1,46 +1,55 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Entre na sua conta Broto.">
     <title>Broto - Login</title>
     <link rel="stylesheet" href="./css/global.css">
     <link rel="stylesheet" href="./view/login.css">
 </head>
 <body>
     <main id="pagina-login">
-        <section id="lado-esquerdo">
+        <section id="lado-esquerdo" aria-label="Boas-vindas ao Broto">
             <div id="apresentacao">
-                <h1 id="logo-broto">🌱 Broto</h1>
+                <div id="logo-broto">
+                    <img src="./images/Logo broto.svg" alt="">
+                    <span>broto</span>
+                </div>
                 <h2 id="boas-vindas">Bem-vindo!</h2>
             </div>
         </section>
 
-        <section id="lado-direito">
+        <section id="lado-direito" aria-labelledby="titulo-login">
             <div id="cartao-login">
-                <h2 id="titulo-login">🌱 LOGIN</h2>
+                <header class="login-cabecalho">
+                    <img src="./images/Logo broto.svg" alt="">
+                    <h1 id="titulo-login">LOGIN</h1>
+                </header>
                 <p id="subtitulo-login">Que bom te ver aqui!</p>
 
-                <form id="form-login">
-                    <label for="nome">Seu nome</label>
+                <form id="form-login" novalidate>
+                    <label class="sr-only" for="email">Email</label>
                     <input
-                        id="nome"
-                        type="text"
-                        placeholder="Digite seu nome"
-                        required
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                        autocomplete="email"
                     >
 
-                    <label for="tipo">Você é:</label>
-                    <select id="tipo" required>
-                        <option value="">Selecione</option>
-                        <option value="produtor">Produtor</option>
-                        <option value="comprador">Comprador</option>
-                    </select>
+                    <label class="sr-only" for="senha">Senha</label>
+                    <input
+                        id="senha"
+                        name="senha"
+                        type="password"
+                        placeholder="Senha"
+                        autocomplete="current-password"
+                    >
 
-                    <button id="botao-entrar" type="submit">
-                        ENTRAR
-                    </button>
+                    <a class="login-cadastro" href="./view/registro.html">NÃO TENHO CONTA CRIADA</a>
+                    <button id="botao-entrar" type="submit">ENTRAR</button>
+                    <p id="mensagem-login" role="status" aria-live="polite"></p>
                 </form>
             </div>
         </section>
@@ -49,4 +58,3 @@
     <script type="module" src="./controller/loginController.js"></script>
 </body>
 </html>
-
