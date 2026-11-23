@@ -1,10 +1,51 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broto</title>
+    <title>Broto - Login</title>
+    <link rel="stylesheet" href="./view/login.css">
 </head>
 <body>
+    <main id="pagina-login">
+        <section id="lado-esquerdo">
+            <div id="apresentacao">
+                <h1 id="logo-broto">🌱 broto</h1>
+                <h2 id="boas-vindas">Bem-vindo!</h2>
+            </div>
+        </section>
+
+        <section id="lado-direito">
+            <div id="cartao-login">
+                <h2 id="titulo-login">🌱 LOGIN</h2>
+                <p id="subtitulo-login">Que bom te ver aqui!</p>
+
+                <form id="form-login">
+                    <label for="nome">Seu nome</label>
+                    <input
+                        id="nome"
+                        type="text"
+                        placeholder="Digite seu nome"
+                        required
+                    >
+
+                    <label for="tipo">Você é:</label>
+                    <select id="tipo" required>
+                        <option value="">Selecione</option>
+                        <option value="produtor">Produtor</option>
+                        <option value="comprador">Comprador</option>
+                    </select>
+
+                    <button id="botao-entrar" type="submit">
+                        ENTRAR
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="./controller/loginController.js"></script>
 </body>
 </html>
+
