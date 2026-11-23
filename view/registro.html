@@ -3,9 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Crie seu cadastro no Broto.">
     <title>Broto - Registro</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="./cadastro.css">
+    <script type="module" src="../controller/cadastroController.js"></script>
 </head>
 <body>
-    <h1>Registro</h1>
+    <main class="cadastro-page">
+        <section class="cadastro-lateral" aria-label="Registro no Broto">
+            <div class="cadastro-apresentacao">
+                <div class="cadastro-logo">
+                    <img src="../images/Logo broto.svg" alt="">
+                    <span>broto</span>
+                </div>
+                <h2 class="cadastro-slogan">
+                    <span>REGISTRO</span>
+                    <small>SOBRE VOCÊ</small>
+                </h2>
+            </div>
+        </section>
+
+        <section class="cadastro-conteudo" aria-labelledby="titulo-registro">
+            <div class="cadastro-card cadastro-card--pessoal">
+                <header class="cadastro-cabecalho">
+                    <img src="../images/Logo broto.svg" alt="">
+                    <h1 id="titulo-registro">REGISTRO</h1>
+                </header>
+                <p class="cadastro-subtitulo">Nos conte mais sobre você</p>
+
+                <form id="form-registro" class="cadastro-form">
+                    <label class="sr-only" for="nome-completo">Nome completo</label>
+                    <input id="nome-completo" name="nome" type="text" placeholder="Nome completo" autocomplete="name" required>
+
+                    <label class="sr-only" for="documento">CPF/CNPJ</label>
+                    <input id="documento" name="documento" type="text" placeholder="CPF/CNPJ" required>
+
+                    <label class="sr-only" for="email-registro">Email</label>
+                    <input id="email-registro" name="email" type="email" placeholder="Email" autocomplete="email" required>
+
+                    <label class="sr-only" for="nascimento">Data de nascimento</label>
+                    <input id="nascimento" name="nascimento" type="date" aria-label="Data de nascimento" required>
+
+                    <fieldset class="cadastro-tipos">
+                        <legend class="sr-only">Tipo de conta</legend>
+                        <label>
+                            <input type="radio" name="tipo" value="comprador" checked>
+                            <span>COMPRADOR</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="tipo" value="vendedor">
+                            <span>VENDEDOR</span>
+                        </label>
+                    </fieldset>
+
+                    <a class="cadastro-link" href="../index.html">JÁ TENHO REGISTRO</a>
+                    <button class="cadastro-botao" type="submit">PRÓXIMO</button>
+                </form>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

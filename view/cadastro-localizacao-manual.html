@@ -3,9 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broto - Cadastro de Localização Manual</title>
+    <meta name="description" content="Informe manualmente a localização do seu negócio no Broto.">
+    <title>Broto - Endereço do Negócio</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="./cadastro.css">
+    <script type="module" src="../controller/cadastroController.js"></script>
 </head>
 <body>
-    <h1>Cadastro de Localização Manual</h1>
+    <main class="cadastro-page">
+        <section class="cadastro-lateral" aria-label="Registro de localização no Broto">
+            <div class="cadastro-apresentacao">
+                <div class="cadastro-logo">
+                    <img src="../images/Logo broto.svg" alt="">
+                    <span>broto</span>
+                </div>
+                <h2 class="cadastro-slogan">
+                    <span>REGISTRO</span>
+                    <small>LOCALIZAÇÃO</small>
+                </h2>
+            </div>
+        </section>
+
+        <section class="cadastro-conteudo" aria-labelledby="titulo-endereco">
+            <div class="cadastro-card cadastro-card--manual">
+                <header class="cadastro-cabecalho">
+                    <img src="../images/Logo broto.svg" alt="">
+                    <h1 id="titulo-endereco">REGISTRO</h1>
+                </header>
+                <p class="cadastro-subtitulo">Onde seu negócio se localiza?</p>
+
+                <form id="form-endereco" class="cadastro-form cadastro-form--manual">
+                    <label class="cadastro-campo-label" for="endereco">Localização</label>
+                    <input id="endereco" name="endereco" type="text" placeholder="Endereço" autocomplete="street-address" required>
+
+                    <label class="sr-only" for="numero-casa">Número da casa</label>
+                    <input id="numero-casa" name="numero" type="text" placeholder="Número da casa" required>
+
+                    <label class="sr-only" for="referencia">Ponto de referência</label>
+                    <input id="referencia" name="referencia" type="text" placeholder="Ponto de referência">
+
+                    <button class="cadastro-botao" type="submit">PRÓXIMO</button>
+                </form>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
