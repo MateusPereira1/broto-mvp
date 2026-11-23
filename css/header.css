@@ -1,0 +1,135 @@
+broto-header {
+    display: block;
+}
+
+.site-header {
+    align-items: center;
+    background: var(--verde-principal);
+    box-shadow: 0 2px 6px #00000012;
+    display: flex;
+    height: 80px;
+    justify-content: space-between;
+    padding: 0 8%;
+    width: 100%;
+}
+
+.site-header__brand {
+    align-items: center;
+    color: var(--branco);
+    display: inline-flex;
+    gap: 20px;
+    text-decoration: none;
+}
+
+.site-header__logo {
+    border-radius: 16px;
+    box-shadow: 0 3px 8px #006b4526;
+    display: block;
+    height: 66px;
+    width: 66px;
+}
+
+.site-header__wordmark {
+    font-size: 46px;
+    font-weight: 600;
+    letter-spacing: -2px;
+    line-height: 1;
+}
+
+.site-header__navigation {
+    align-items: center;
+    display: flex;
+    gap: 26px;
+}
+
+.site-header__link {
+    align-items: center;
+    background: var(--branco);
+    border-radius: 50%;
+    display: inline-flex;
+    height: 54px;
+    justify-content: center;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+    width: 54px;
+}
+
+.site-header__link:hover {
+    box-shadow: 0 3px 10px #006b4526;
+    transform: translateY(-2px);
+}
+
+.site-header__link:focus-visible,
+.site-header__brand:focus-visible {
+    outline: 3px solid #075c3e;
+    outline-offset: 4px;
+}
+
+.site-header__link img {
+    display: block;
+    height: 26px;
+    object-fit: contain;
+    width: 26px;
+}
+
+@media (max-width: 600px) {
+    .site-header {
+        height: 70px;
+        padding: 0 16px;
+    }
+
+    .site-header__brand {
+        gap: 10px;
+    }
+
+    .site-header__logo {
+        border-radius: 12px;
+        height: 48px;
+        width: 48px;
+    }
+
+    .site-header__wordmark {
+        font-size: 34px;
+    }
+
+    .site-header__navigation {
+        gap: 8px;
+    }
+
+    .site-header__link {
+        height: 40px;
+        width: 40px;
+    }
+
+    .site-header__link img {
+        height: 20px;
+        width: 20px;
+    }
+}
+
+@media (max-width: 390px) {
+    .site-header {
+        padding: 0 10px;
+    }
+
+    .site-header__brand {
+        gap: 7px;
+    }
+
+    .site-header__logo {
+        height: 42px;
+        width: 42px;
+    }
+
+    .site-header__wordmark {
+        font-size: 30px;
+    }
+
+    .site-header__navigation {
+        gap: 5px;
+    }
+
+    .site-header__link {
+        height: 36px;
+        width: 36px;
+    }
+}

@@ -1,0 +1,232 @@
+body {
+    background: var(--branco);
+}
+
+.marketplace {
+    margin: 0 auto;
+    max-width: 1120px;
+    padding: 53px 24px 48px;
+}
+
+.marketplace__search {
+    align-items: center;
+    background: var(--verde-principal);
+    border-radius: 13px;
+    box-shadow: 0 4px 6px #0000002b;
+    color: var(--branco);
+    display: flex;
+    height: 53px;
+    margin: 0 auto 80px;
+    max-width: 536px;
+    padding: 0 22px;
+    width: 100%;
+}
+
+.marketplace__search:focus-within {
+    outline: 3px solid #078a5840;
+    outline-offset: 3px;
+}
+
+.marketplace__search-icon {
+    flex: 0 0 24px;
+    height: 24px;
+    margin-right: 10px;
+    width: 24px;
+}
+
+.marketplace__search input {
+    background: transparent;
+    border: 0;
+    color: var(--branco);
+    font: 600 12px var(--fonte-principal);
+    min-width: 0;
+    outline: 0;
+    width: 100%;
+}
+
+.marketplace__search input::placeholder {
+    color: var(--branco);
+    opacity: 1;
+}
+
+.marketplace__search input::-webkit-search-cancel-button {
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+}
+
+.products {
+    display: grid;
+    gap: 46px;
+    grid-template-columns: repeat(3, minmax(0, 250px));
+    justify-content: center;
+}
+
+.product-card {
+    background: var(--branco);
+    border-radius: 15px;
+    box-shadow: 0 3px 5px #00000030;
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-card__image-link {
+    display: block;
+    height: 148px;
+    overflow: hidden;
+}
+
+.product-card__image {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 220ms ease;
+    width: 100%;
+}
+
+.product-card__image-link:hover .product-card__image {
+    transform: scale(1.04);
+}
+
+.product-card__favorite {
+    align-items: center;
+    background: var(--branco);
+    border: 0;
+    border-radius: 50%;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    padding: 0;
+    position: absolute;
+    right: 12px;
+    top: 13px;
+    transition: color 160ms ease, transform 160ms ease;
+    width: 40px;
+}
+
+.product-card__favorite:hover {
+    transform: scale(1.06);
+}
+
+.product-card__favorite[aria-pressed="true"] {
+    color: #e84c62;
+}
+
+.product-card__favorite[aria-pressed="true"] path {
+    fill: currentColor;
+}
+
+.product-card__favorite:focus-visible,
+.product-card__buy:focus-visible,
+.product-card__image-link:focus-visible {
+    outline: 3px solid #075c3e;
+    outline-offset: 3px;
+}
+
+.product-card__favorite svg {
+    height: 22px;
+    width: 22px;
+}
+
+.product-card__details {
+    padding: 17px 20px 18px;
+}
+
+.product-card__name {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 8px;
+    white-space: nowrap;
+}
+
+.product-card__location {
+    color: #777;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0 0 4px;
+}
+
+.product-card__price {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 22px;
+    white-space: nowrap;
+}
+
+.product-card__buy {
+    align-items: center;
+    background: var(--verde-principal);
+    border-radius: 11px;
+    color: var(--branco);
+    display: flex;
+    font-size: 20px;
+    font-weight: 700;
+    height: 34px;
+    justify-content: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 160ms ease;
+    width: 100%;
+}
+
+.product-card__buy:hover {
+    background: #08b976;
+}
+
+.marketplace__empty {
+    color: #777;
+    margin: 0;
+    text-align: center;
+}
+
+.sr-only {
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+@media (max-width: 900px) {
+    .marketplace {
+        padding-top: 40px;
+    }
+
+    .products {
+        gap: 28px;
+        grid-template-columns: repeat(2, minmax(0, 250px));
+    }
+
+    .marketplace__search {
+        margin-bottom: 56px;
+    }
+}
+
+@media (max-width: 600px) {
+    .marketplace {
+        padding: 30px 20px 40px;
+    }
+
+    .products {
+        gap: 22px;
+        grid-template-columns: minmax(0, 320px);
+    }
+
+    .product-card__image-link {
+        height: 180px;
+    }
+
+    .product-card__name {
+        font-size: 19px;
+    }
+
+    .marketplace__search {
+        margin-bottom: 36px;
+    }
+}
