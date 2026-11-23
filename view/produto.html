@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confira os detalhes e compre produtos de produtores locais.">
+    <title>Broto - Melancia</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/marketplace.css">
+    <link rel="stylesheet" href="../css/produto.css">
+    <script src="../controller/header.js" defer></script>
+    <script src="../controller/produto.js" defer></script>
+</head>
+<body>
+    <broto-header></broto-header>
+
+    <main class="product-page">
+        <section class="product-detail" aria-labelledby="product-name">
+            <div class="product-gallery">
+                <img
+                    class="product-gallery__main"
+                    id="product-main-image"
+                    src="https://images.unsplash.com/photo-1652031552021-50bcc01121a7?auto=format&fit=crop&w=1000&q=85"
+                    alt="Melancia cortada sobre folhas"
+                >
+                <div class="product-gallery__thumbnails" aria-label="Fotos do produto">
+                    <button
+                        class="product-gallery__thumbnail is-selected"
+                        type="button"
+                        data-image="https://images.unsplash.com/photo-1652031552021-50bcc01121a7?auto=format&fit=crop&w=1000&q=85"
+                        data-alt="Melancia cortada sobre folhas"
+                        aria-label="Ver foto 1 da melancia"
+                        aria-pressed="true"
+                    >
+                        <img src="https://images.unsplash.com/photo-1652031552021-50bcc01121a7?auto=format&fit=crop&w=220&q=75" alt="">
+                    </button>
+                    <button
+                        class="product-gallery__thumbnail"
+                        type="button"
+                        data-image="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=1000&q=85"
+                        data-alt="Melancia inteira e uma fatia cortada"
+                        aria-label="Ver foto 2 da melancia"
+                        aria-pressed="false"
+                    >
+                        <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=220&q=75" alt="">
+                    </button>
+                    <button
+                        class="product-gallery__thumbnail"
+                        type="button"
+                        data-image="https://images.unsplash.com/photo-1589984662646-e7b2e4962f18?auto=format&fit=crop&w=1000&q=85"
+                        data-alt="Fatia de melancia"
+                        aria-label="Ver foto 3 da melancia"
+                        aria-pressed="false"
+                    >
+                        <img src="https://images.unsplash.com/photo-1589984662646-e7b2e4962f18?auto=format&fit=crop&w=220&q=75" alt="">
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-detail__info">
+                <h1 class="sr-only" id="product-name">Melancia</h1>
+                <p class="product-detail__location">Cidade do Produtor</p>
+                <p class="product-detail__price">R$ 100,00/Kg</p>
+                <p class="product-detail__unit-price">R$ 100,00/Kg</p>
+                <div class="product-detail__description">
+                    <h2>Descrição</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer.</p>
+                </div>
+                <div class="product-detail__actions">
+                    <a class="product-detail__add" href="./carrinho.html">Adicionar ao carrinho</a>
+                    <a class="product-detail__buy" href="./finalizar-compra.html">Comprar</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="related-products" aria-labelledby="related-products-title">
+            <h2 id="related-products-title">Mais produtos</h2>
+            <div class="products">
+                <article class="product-card">
+                    <a class="product-card__image-link" href="./produto.html" aria-label="Ver detalhes de Nome do Produto">
+                        <img class="product-card__image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=85" alt="Paisagem de lago cercado por árvores">
+                    </a>
+                    <button class="product-card__favorite" type="button" aria-label="Adicionar Nome do Produto aos favoritos" aria-pressed="false">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M20.8 8.8c0 4.1-8.8 10-8.8 10S3.2 12.9 3.2 8.8a4.5 4.5 0 0 1 8.8-1.3 4.5 4.5 0 0 1 8.8 1.3Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                    <div class="product-card__details">
+                        <h3 class="product-card__name">Nome do Produto</h3>
+                        <p class="product-card__location">Cidade do Produtor</p>
+                        <p class="product-card__price">R$ 100,00/Kg</p>
+                        <a class="product-card__buy" href="./produto.html">Comprar</a>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <a class="product-card__image-link" href="./produto.html" aria-label="Ver detalhes de Nome do Produto">
+                        <img class="product-card__image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=85" alt="Paisagem de lago cercado por árvores">
+                    </a>
+                    <button class="product-card__favorite" type="button" aria-label="Adicionar Nome do Produto aos favoritos" aria-pressed="false">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M20.8 8.8c0 4.1-8.8 10-8.8 10S3.2 12.9 3.2 8.8a4.5 4.5 0 0 1 8.8-1.3 4.5 4.5 0 0 1 8.8 1.3Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                    <div class="product-card__details">
+                        <h3 class="product-card__name">Nome do Produto</h3>
+                        <p class="product-card__location">Cidade do Produtor</p>
+                        <p class="product-card__price">R$ 100,00/Kg</p>
+                        <a class="product-card__buy" href="./produto.html">Comprar</a>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <a class="product-card__image-link" href="./produto.html" aria-label="Ver detalhes de Nome do Produto">
+                        <img class="product-card__image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=85" alt="Paisagem de lago cercado por árvores">
+                    </a>
+                    <button class="product-card__favorite" type="button" aria-label="Adicionar Nome do Produto aos favoritos" aria-pressed="false">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M20.8 8.8c0 4.1-8.8 10-8.8 10S3.2 12.9 3.2 8.8a4.5 4.5 0 0 1 8.8-1.3 4.5 4.5 0 0 1 8.8 1.3Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                    <div class="product-card__details">
+                        <h3 class="product-card__name">Nome do Produto</h3>
+                        <p class="product-card__location">Cidade do Produtor</p>
+                        <p class="product-card__price">R$ 100,00/Kg</p>
+                        <a class="product-card__buy" href="./produto.html">Comprar</a>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <a class="product-card__image-link" href="./produto.html" aria-label="Ver detalhes de Nome do Produto">
+                        <img class="product-card__image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=85" alt="Paisagem de lago cercado por árvores">
+                    </a>
+                    <button class="product-card__favorite" type="button" aria-label="Adicionar Nome do Produto aos favoritos" aria-pressed="false">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M20.8 8.8c0 4.1-8.8 10-8.8 10S3.2 12.9 3.2 8.8a4.5 4.5 0 0 1 8.8-1.3 4.5 4.5 0 0 1 8.8 1.3Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                    <div class="product-card__details">
+                        <h3 class="product-card__name">Nome do Produto</h3>
+                        <p class="product-card__location">Cidade do Produtor</p>
+                        <p class="product-card__price">R$ 100,00/Kg</p>
+                        <a class="product-card__buy" href="./produto.html">Comprar</a>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <a class="product-card__image-link" href="./produto.html" aria-label="Ver detalhes de Nome do Produto">
+                        <img class="product-card__image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=85" alt="Paisagem de lago cercado por árvores">
+                    </a>
+                    <button class="product-card__favorite" type="button" aria-label="Adicionar Nome do Produto aos favoritos" aria-pressed="false">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M20.8 8.8c0 4.1-8.8 10-8.8 10S3.2 12.9 3.2 8.8a4.5 4.5 0 0 1 8.8-1.3 4.5 4.5 0 0 1 8.8 1.3Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                    <div class="product-card__details">
+                        <h3 class="product-card__name">Nome do Produto</h3>
+                        <p class="product-card__location">Cidade do Produtor</p>
+                        <p class="product-card__price">R$ 100,00/Kg</p>
+                        <a class="product-card__buy" href="./produto.html">Comprar</a>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <a class="product-card__image-link" href="./produto.html" aria-label="Ver detalhes de Nome do Produto">
+                        <img class="product-card__image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=85" alt="Paisagem de lago cercado por árvores">
+                    </a>
+                    <button class="product-card__favorite" type="button" aria-label="Adicionar Nome do Produto aos favoritos" aria-pressed="false">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M20.8 8.8c0 4.1-8.8 10-8.8 10S3.2 12.9 3.2 8.8a4.5 4.5 0 0 1 8.8-1.3 4.5 4.5 0 0 1 8.8 1.3Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                    <div class="product-card__details">
+                        <h3 class="product-card__name">Nome do Produto</h3>
+                        <p class="product-card__location">Cidade do Produtor</p>
+                        <p class="product-card__price">R$ 100,00/Kg</p>
+                        <a class="product-card__buy" href="./produto.html">Comprar</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
