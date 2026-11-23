@@ -3,9 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confira seu pedido, informe o endereço de entrega e escolha como pagar.">
     <title>Broto - Finalizar Compra</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/carrinho.css">
+    <script src="../controller/header.js" defer></script>
+    <script src="../controller/carrinho.js" defer></script>
 </head>
 <body>
-    <h1>Finalizar Compra</h1>
+    <broto-header></broto-header>
+
+    <main class="checkout">
+        <header class="checkout__heading">
+            <h1>Finalizar compra</h1>
+            <p>Confira seu pedido antes de pagar</p>
+        </header>
+
+        <section class="cart-items" aria-label="Produtos no carrinho"></section>
+        <p class="checkout__empty" hidden>Seu carrinho está vazio. Volte ao marketplace para adicionar produtos.</p>
+
+        <form class="checkout__form">
+            <fieldset class="checkout__section">
+                <legend>Endereço de entrega</legend>
+                <label class="sr-only" for="checkout-street">Rua e número</label>
+                <input id="checkout-street" name="endereco" placeholder="Rua e número" autocomplete="street-address" required>
+                <div class="checkout__field-row">
+                    <label class="sr-only" for="checkout-city">Cidade</label>
+                    <input id="checkout-city" name="cidade" placeholder="Cidade" autocomplete="address-level2" required>
+                    <label class="sr-only" for="checkout-cep">CEP</label>
+                    <input id="checkout-cep" name="cep" placeholder="CEP" autocomplete="postal-code" inputmode="numeric" required>
+                </div>
+                <label class="sr-only" for="checkout-complement">Complemento (opcional)</label>
+                <input id="checkout-complement" name="complemento" placeholder="Complemento (opcional)" autocomplete="address-line2">
+            </fieldset>
+
+            <fieldset class="checkout__section checkout__payment">
+                <legend>Forma de pagamento</legend>
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="radio" name="pagamento" value="pix" checked>
+                        <span>Pix</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="pagamento" value="cartao">
+                        <span>Cartão</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="pagamento" value="boleto">
+                        <span>Boleto</span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <section class="order-summary" aria-label="Resumo do pedido">
+                <p><span>Subtotal</span><strong id="checkout-subtotal">R$ 0,00</strong></p>
+                <p><span>Frete</span><strong>R$ 20,00</strong></p>
+                <p class="order-summary__total"><span>Total</span><strong id="checkout-total">R$ 0,00</strong></p>
+            </section>
+
+            <aside class="checkout-help">
+                <span class="checkout-help__icon" aria-hidden="true">?</span>
+                <div>
+                    <strong>Ficou com dúvida?</strong>
+                    <p>Converse com o produtor antes de finalizar</p>
+                </div>
+                <a href="./chat.html">Abrir chat</a>
+            </aside>
+
+            <div class="checkout__actions">
+                <a class="checkout__back" href="./marketplace.html">Voltar ao marketplace</a>
+                <button class="checkout__submit" type="submit">Finalizar compra</button>
+            </div>
+            <p class="checkout__message" role="status" hidden></p>
+        </form>
+    </main>
 </body>
 </html>

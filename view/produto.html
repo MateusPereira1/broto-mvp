@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/marketplace.css">
     <link rel="stylesheet" href="../css/produto.css">
     <script src="../controller/header.js" defer></script>
+    <script src="../controller/carrinho.js" defer></script>
     <script src="../controller/produto.js" defer></script>
 </head>
 <body>
@@ -68,8 +69,8 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer.</p>
                 </div>
                 <div class="product-detail__actions">
-                    <a class="product-detail__add" href="./carrinho.html">Adicionar ao carrinho</a>
-                    <a class="product-detail__buy" href="./finalizar-compra.html">Comprar</a>
+                    <button class="product-detail__add" type="button" data-add-to-cart="melancia">Adicionar ao carrinho</button>
+                    <button class="product-detail__buy" type="button" data-add-to-cart="melancia" data-go-to-checkout="true">Comprar</button>
                 </div>
             </div>
         </section>
