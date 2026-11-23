@@ -3,9 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broto - Meus Produtos</title>
+    <title>Broto - Meus produtos</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/produtor.css">
+    <script src="../controller/header.js" defer></script>
+    <script src="../controller/carrinho.js" defer></script>
+    <script src="../controller/meusProdutos.js" defer></script>
 </head>
 <body>
-    <h1>Meus Produtos</h1>
+    <broto-header></broto-header>
+
+    <main class="area-produtor">
+        <h1>Meus produtos</h1>
+        <p class="produtos-descricao">Gerencie os produtos que você vende no Marketplace.</p>
+
+        <section class="produtos-painel" aria-label="Catálogo do produtor">
+            <div class="produtos-filtros" role="group" aria-label="Filtrar por categoria">
+                <button type="button" data-categoria="" aria-pressed="true">Todos</button>
+                <button type="button" data-categoria="Fruta" aria-pressed="false">Frutas</button>
+                <button type="button" data-categoria="Verdura" aria-pressed="false">Verduras</button>
+                <button type="button" data-categoria="Legume" aria-pressed="false">Legumes</button>
+            </div>
+            <ul class="produtos-produtor"></ul>
+            <p id="produtos-vazio" hidden>Nenhum produto nesta categoria.</p>
+            <button type="button" class="produto-novo">＋ Cadastrar novo produto</button>
+        </section>
+
+        <template id="produto-item">
+            <li>
+                <span class="produto-ilustracao" aria-hidden="true"></span>
+                <div>
+                    <h2></h2>
+                    <span class="produto-categoria"></span>
+                    <strong class="produto-preco"></strong>
+                </div>
+                <div>
+                    <span class="produto-excedente" hidden>🌱 Excedente</span>
+                    <p class="produto-estoque"></p>
+                </div>
+                <div class="produto-acoes">
+                    <button type="button" class="produto-status" role="switch"></button>
+                    <button type="button" class="produto-editar"><span aria-hidden="true">✎</span></button>
+                    <button type="button" class="produto-excluir"><span aria-hidden="true">🗑</span></button>
+                </div>
+            </li>
+        </template>
+
+        <dialog id="produto-dialogo" aria-labelledby="produto-dialogo-titulo">
+            <form id="produto-formulario">
+                <h2 id="produto-dialogo-titulo"></h2>
+                <label>Nome <input name="nome" required></label>
+                <label>Categoria
+                    <select name="categoria">
+                        <option>Fruta</option>
+                        <option>Verdura</option>
+                        <option>Legume</option>
+                    </select>
+                </label>
+                <label>Preço (R$) <input name="preco" type="number" min="0" step="0.01" required></label>
+                <label>Estoque <input name="estoque" type="number" min="0" step="any" required></label>
+                <label>Unidade
+                    <select name="unidade">
+                        <option value="kg">Quilograma (kg)</option>
+                        <option value="un">Unidade (un)</option>
+                    </select>
+                </label>
+                <label class="produto-opcao"><input name="excedente" type="checkbox"> Excedente</label>
+                <div class="produto-dialogo-acoes">
+                    <button type="button" id="produto-cancelar">Cancelar</button>
+                    <button type="submit">Salvar</button>
+                </div>
+            </form>
+        </dialog>
+    </main>
 </body>
 </html>
