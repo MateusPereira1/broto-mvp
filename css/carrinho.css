@@ -313,12 +313,14 @@ body {
     padding: 0 22px;
     text-decoration: none;
     text-transform: uppercase;
-    transition: background-color 140ms ease;
+    transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }
 
 .checkout-help a:hover,
 .checkout__submit:hover {
-    background: #08b976;
+    background: var(--branco);
+    border-color: var(--verde-principal);
+    color: var(--verde-principal);
 }
 
 .checkout__actions {

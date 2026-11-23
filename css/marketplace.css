@@ -160,6 +160,7 @@ body {
 .product-card__buy {
     align-items: center;
     background: var(--verde-principal);
+    border: 1px solid transparent;
     border-radius: 11px;
     color: var(--branco);
     display: flex;
@@ -169,12 +170,14 @@ body {
     justify-content: center;
     text-decoration: none;
     text-transform: uppercase;
-    transition: background-color 160ms ease;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
     width: 100%;
 }
 
 .product-card__buy:hover {
-    background: #08b976;
+    background: var(--branco);
+    border-color: var(--verde-principal);
+    color: var(--verde-principal);
 }
 
 .marketplace__empty {

@@ -128,13 +128,19 @@
 
 .product-detail__buy {
     background: var(--verde-principal);
-    border: 0;
+    border: 1px solid transparent;
     color: var(--branco);
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
-.product-detail__actions a:hover,
-.product-detail__actions button:hover {
+.product-detail__add:hover {
     filter: brightness(0.96);
+}
+
+.product-detail__buy:hover {
+    background: var(--branco);
+    border-color: var(--verde-principal);
+    color: var(--verde-principal);
 }
 
 .related-products {
