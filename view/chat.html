@@ -3,9 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broto - Chat / Conversas</title>
+    <title>Broto - Conversas</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/chat.css">
+    <script src="../controller/header.js" defer></script>
+    <script src="../controller/carrinho.js" defer></script>
+    <script src="../controller/chat.js" defer></script>
 </head>
 <body>
-    <h1>Chat / Conversas</h1>
+    <broto-header></broto-header>
+    <main class="chat">
+        <h1>Conversas</h1>
+        <p class="chat__descricao">Mantenha contato com os fornecedores</p>
+
+        <aside class="chat__lista" aria-label="Lista de conversas">
+            <label class="sr-only" for="busca-conversa">Buscar conversa</label>
+            <input id="busca-conversa" type="search" placeholder="Buscar conversa...">
+            <div id="chat-contatos"></div>
+            <p id="chat-sem-resultados" hidden>Nenhuma conversa encontrada.</p>
+            <a class="chat__voltar" href="./marketplace.html">← Voltar</a>
+        </aside>
+
+        <section class="chat__painel" aria-labelledby="chat-nome">
+            <header class="chat__contato">
+                <span class="chat__avatar" aria-hidden="true"></span>
+                <div>
+                    <h2 id="chat-nome"></h2>
+                    <p id="chat-status"></p>
+                </div>
+            </header>
+            <ol id="chat-mensagens" role="log" aria-label="Mensagens"></ol>
+            <form id="chat-formulario">
+                <label class="sr-only" for="chat-mensagem">Digite sua mensagem</label>
+                <input id="chat-mensagem" name="mensagem" placeholder="Digite sua mensagem" autocomplete="off" required>
+                <button type="submit" aria-label="Enviar mensagem"><span aria-hidden="true">➤</span></button>
+            </form>
+        </section>
+    </main>
 </body>
 </html>

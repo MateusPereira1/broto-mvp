@@ -1,0 +1,193 @@
+.chat {
+    display: grid;
+    grid-template-columns: minmax(14rem, 1fr) minmax(0, 1.9fr);
+    grid-template-areas: "titulo painel" "descricao painel" "lista painel";
+    grid-template-rows: auto auto 1fr;
+    align-items: start;
+    column-gap: clamp(1.5rem, 5vw, 4.25rem);
+    width: min(calc(100% - 2rem), 69rem);
+    margin: clamp(2rem, 5vw, 3.5rem) auto;
+}
+
+.chat h1 { grid-area: titulo; margin: 0; }
+.chat__descricao { grid-area: descricao; margin: 0.35rem 0 0; color: #555; }
+.chat__lista { grid-area: lista; margin-top: clamp(1.5rem, 5vw, 4rem); }
+.chat__painel {
+    grid-area: painel;
+    display: grid;
+    gap: 1rem;
+    padding: clamp(1rem, 3vw, 2.25rem);
+    border-radius: 1.15rem;
+    background: var(--branco);
+    box-shadow: var(--sombra-card);
+}
+
+#busca-conversa,
+#chat-mensagem,
+.chat button {
+    font: inherit;
+}
+
+#busca-conversa {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid #a5e5cc;
+    border-radius: 0.9rem;
+    background: #dffbf0;
+    text-align: center;
+}
+
+#chat-contatos {
+    display: grid;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+.chat__item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.75rem;
+    color: inherit;
+    text-align: left;
+    border: 1px solid #d9eee5;
+    border-radius: 0.9rem;
+    background: var(--branco);
+    cursor: pointer;
+}
+
+.chat__item[hidden] { display: none; }
+.chat__item[aria-pressed="true"], .chat__item:hover { background: #dffbf0; }
+
+.chat__item small {
+    display: block;
+    color: #555;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chat__horario { align-self: start; }
+
+.chat__voltar {
+    display: block;
+    width: 75%;
+    margin: 1.5rem auto 0;
+    padding: 0.4rem;
+    border: 1px solid #078653;
+    border-radius: 2rem;
+    color: #096344;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.chat__contato {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1rem;
+    border-radius: 0.85rem;
+    box-shadow: 0 2px 4px #0003;
+}
+
+.chat__contato h2 { margin: 0; font-size: 1.25rem; }
+#chat-status { margin: 0; color: #555; font-size: 0.875rem; }
+#chat-status::before {
+    content: "";
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: 0.35rem;
+    border-radius: 50%;
+    background: #737373;
+}
+
+#chat-status.chat__online::before { background: #078653; }
+
+.chat__avatar {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    aspect-ratio: 1;
+    border: 1px solid #078653;
+    border-radius: 50%;
+    background: white;
+}
+
+.chat__avatar::before {
+    content: "";
+    width: 0.85rem;
+    height: 0.55rem;
+    border-radius: 75% 0 75% 0;
+    background: #078653;
+    transform: rotate(20deg);
+}
+
+#chat-mensagens {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-height: 13rem;
+    max-height: 22rem;
+    margin: 0;
+    padding: 0.75rem 0;
+    overflow-y: auto;
+    list-style: none;
+}
+
+.chat__mensagem {
+    align-self: flex-start;
+    max-width: 85%;
+    padding: 0.85rem 1rem;
+    border-radius: 0.9rem;
+    background: #dffbf0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.chat__mensagem--enviada {
+    align-self: flex-end;
+    background: #08c97c;
+    color: #073c2a;
+}
+
+#chat-formulario {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.25rem 0.3rem 0.25rem 0.85rem;
+    border: 1px solid #078653;
+    border-radius: 2rem;
+}
+
+#chat-mensagem {
+    flex: 1;
+    min-width: 0;
+    padding: 0.35rem;
+    border: 0;
+    border-radius: 1rem;
+}
+
+#chat-formulario button {
+    flex: 0 0 2.65rem;
+    height: 2.65rem;
+    border: 0;
+    border-radius: 50%;
+    background: #078653;
+    color: white;
+    cursor: pointer;
+}
+
+.chat :focus-visible { outline: 2px solid #096344; outline-offset: 2px; }
+
+@media (max-width: 680px) {
+    .chat {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "titulo" "descricao" "lista" "painel";
+    }
+
+    .chat__painel { margin-top: 1.5rem; }
+    .chat__voltar { margin-top: 1rem; }
+}
