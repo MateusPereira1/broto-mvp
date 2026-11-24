@@ -1,8 +1,6 @@
-const produtos = [
-    { nome: "Banana", categoria: "Fruta", preco: 4.5, estoque: 20, unidade: "kg", excedente: true, ativo: true, ilustracao: "🍌" },
-    { nome: "Alface", categoria: "Verdura", preco: 3, estoque: 15, unidade: "un", excedente: false, ativo: true, ilustracao: "🥬" },
-    { nome: "Cenoura", categoria: "Legume", preco: 5, estoque: 10, unidade: "kg", excedente: false, ativo: true, ilustracao: "🥕" },
-];
+import { carregarCatalogo, lerProduto, salvarCatalogo } from "../model/catalogoProdutor.js";
+
+let produtos = carregarCatalogo();
 
 const filtros = document.querySelectorAll(".produtos-filtros button");
 const rotulos = Array.from(filtros, (botao) => botao.textContent);
@@ -11,7 +9,6 @@ const modelo = document.querySelector("#produto-item");
 const vazio = document.querySelector("#produtos-vazio");
 const dialogo = document.querySelector("#produto-dialogo");
 const formulario = document.querySelector("#produto-formulario");
-const novo = document.querySelector(".produto-novo");
 const moeda = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 const numero = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 20 });
 let categoria = "";
@@ -25,14 +22,19 @@ function atualizarStatus(botao, produto) {
 function abrirEditor(produto) {
     produtoEditado = produto;
     formulario.reset();
-    document.querySelector("#produto-dialogo-titulo").textContent = produto ? "Editar produto" : "Cadastrar novo produto";
-    if (produto) {
-        for (const campo of ["nome", "categoria", "preco", "estoque", "unidade"]) {
-            formulario.elements.namedItem(campo).value = produto[campo];
-        }
-        formulario.elements.excedente.checked = produto.excedente;
+    for (const campo of ["nome", "categoria", "preco", "estoque", "unidade"]) {
+        formulario.elements.namedItem(campo).value = produto[campo];
     }
+    formulario.elements.excedente.checked = produto.excedente;
     dialogo.showModal();
+}
+
+function guardarAlteracoes() {
+    try {
+        salvarCatalogo(produtos);
+    } catch {
+        window.alert("A alteração só vale até sair desta página.");
+    }
 }
 
 function renderizarProdutos() {
@@ -56,11 +58,16 @@ function renderizarProdutos() {
         item.querySelector(".produto-excedente").hidden = !produto.excedente;
         item.querySelector(".produto-estoque").textContent = `Estoque: ${numero.format(produto.estoque)} ${produto.unidade}`;
 
+        const descricao = item.querySelector(".produto-descricao");
+        descricao.textContent = produto.descricao || "";
+        descricao.hidden = !produto.descricao;
+
         const status = item.querySelector(".produto-status");
         status.setAttribute("aria-label", `${produto.nome} ativo`);
         atualizarStatus(status, produto);
         status.addEventListener("click", () => {
             produto.ativo = !produto.ativo;
+            guardarAlteracoes();
             atualizarStatus(status, produto);
         });
 
@@ -73,6 +80,7 @@ function renderizarProdutos() {
         excluir.addEventListener("click", () => {
             if (window.confirm(`Excluir ${produto.nome}?`)) {
                 produtos.splice(produtos.indexOf(produto), 1);
+                guardarAlteracoes();
                 renderizarProdutos();
                 document.querySelector('.produtos-filtros [aria-pressed="true"]').focus();
             }
@@ -89,31 +97,15 @@ filtros.forEach((botao) => {
     });
 });
 
-novo.addEventListener("click", () => abrirEditor());
 document.querySelector("#produto-cancelar").addEventListener("click", () => dialogo.close());
 formulario.addEventListener("submit", (evento) => {
     evento.preventDefault();
-    const dados = new FormData(formulario);
-    const nome = dados.get("nome").trim();
-    if (!nome) {
-        formulario.elements.nome.focus();
+    const dadosProduto = lerProduto(formulario);
+    if (!dadosProduto) {
         return;
     }
-
-    const dadosProduto = {
-        nome,
-        categoria: dados.get("categoria"),
-        preco: Number(dados.get("preco")),
-        estoque: Number(dados.get("estoque")),
-        unidade: dados.get("unidade"),
-        excedente: dados.has("excedente"),
-    };
-
-    if (produtoEditado) {
-        Object.assign(produtoEditado, dadosProduto);
-    } else {
-        produtos.push({ ...dadosProduto, ativo: true, ilustracao: "🌱" });
-    }
+    Object.assign(produtoEditado, dadosProduto);
+    guardarAlteracoes();
 
     categoria = dadosProduto.categoria;
     dialogo.close();
@@ -122,3 +114,10 @@ formulario.addEventListener("submit", (evento) => {
 });
 
 renderizarProdutos();
+
+window.addEventListener("pageshow", (evento) => {
+    if (evento.persisted) {
+        produtos = carregarCatalogo();
+        renderizarProdutos();
+    }
+});

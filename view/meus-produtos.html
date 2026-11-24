@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/produtor.css">
     <script src="../controller/header.js" defer></script>
     <script src="../controller/carrinho.js" defer></script>
-    <script src="../controller/meusProdutos.js" defer></script>
+    <script type="module" src="../controller/meusProdutos.js"></script>
 </head>
 <body>
     <broto-header></broto-header>
@@ -27,7 +27,7 @@
             </div>
             <ul class="produtos-produtor"></ul>
             <p id="produtos-vazio" hidden>Nenhum produto nesta categoria.</p>
-            <button type="button" class="produto-novo">＋ Cadastrar novo produto</button>
+            <a class="produto-novo" href="./cadastrar-produto.html">＋ Cadastrar novo produto</a>
         </section>
 
         <template id="produto-item">
@@ -37,6 +37,7 @@
                     <h2></h2>
                     <span class="produto-categoria"></span>
                     <strong class="produto-preco"></strong>
+                    <p class="produto-descricao" hidden></p>
                 </div>
                 <div>
                     <span class="produto-excedente" hidden>🌱 Excedente</span>
@@ -52,7 +53,7 @@
 
         <dialog id="produto-dialogo" aria-labelledby="produto-dialogo-titulo">
             <form id="produto-formulario">
-                <h2 id="produto-dialogo-titulo"></h2>
+                <h2 id="produto-dialogo-titulo">Editar produto</h2>
                 <label>Nome <input name="nome" required></label>
                 <label>Categoria
                     <select name="categoria">
