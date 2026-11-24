@@ -40,6 +40,13 @@ class BrotoHeader extends HTMLElement {
         this.cartTrigger = this.querySelector('.site-header__cart-trigger');
         this.cartOverlay = this.querySelector('.cart-overlay');
         this.closeButton = this.querySelector('.cart-drawer__close');
+        const currentPage = window.location.pathname.split('/').pop();
+        this.querySelectorAll('.site-header__link[href]').forEach((link) => {
+            const linkPage = link.getAttribute('href').split('/').pop();
+            if (linkPage === currentPage) {
+                link.setAttribute('aria-current', 'page');
+            }
+        });
         this.cartTrigger.addEventListener('click', () => this.openCart());
         this.closeButton.addEventListener('click', () => this.closeCart());
         this.querySelector('.cart-overlay__backdrop').addEventListener('click', () => this.closeCart());

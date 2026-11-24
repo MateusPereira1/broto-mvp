@@ -60,6 +60,10 @@ broto-header {
     transform: translateY(-2px);
 }
 
+.site-header__link[aria-current="page"] {
+    box-shadow: 0 0 0 3px #075c3e inset;
+}
+
 .site-header__link:focus-visible,
 .site-header__brand:focus-visible {
     outline: 3px solid #075c3e;
