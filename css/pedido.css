@@ -91,3 +91,184 @@
 .pedido-acoes a:hover {
     background: #dcfaed;
 }
+
+.pedido-acoes a.pedido-acoes__primaria {
+    border-color: #08b976;
+    background: #08b976;
+    color: var(--branco);
+}
+
+.pedido-acoes a.pedido-acoes__primaria:hover {
+    border-color: #079a63;
+    background: #079a63;
+}
+
+/* Acompanhar pedido */
+.pedido--acompanhamento {
+    width: min(calc(100% - 2rem), 60rem);
+}
+
+.acompanhamento-cabecalho {
+    margin-bottom: 1.5rem;
+}
+
+.acompanhamento-cabecalho h1 {
+    margin: 0;
+}
+
+.acompanhamento-cabecalho p {
+    margin: 0.35rem 0 0;
+    color: #555;
+}
+
+.acompanhamento-resumo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0;
+}
+
+.acompanhamento-resumo .pedido-resumo__total {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+}
+
+.acompanhamento-resumo .pedido-resumo__total span {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.acompanhamento-grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+@media (min-width: 48rem) {
+    .acompanhamento-grid {
+        grid-template-columns: 1.1fr 1fr;
+        align-items: start;
+    }
+}
+
+.acompanhamento-card {
+    padding: 1.25rem;
+    border: 1px solid #74d8b0;
+    border-radius: 1rem;
+    background: var(--branco);
+}
+
+.acompanhamento-entrega {
+    border-color: #7fd3e3;
+}
+
+.acompanhamento-entrega h2 {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+}
+
+.acompanhamento-entrega__item {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+}
+
+.acompanhamento-entrega__item + .acompanhamento-entrega__item {
+    margin-top: 1.25rem;
+}
+
+.acompanhamento-entrega__icone {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: #08b976;
+}
+
+.acompanhamento-entrega__item h3 {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.acompanhamento-entrega__item p {
+    margin: 0.2rem 0 0;
+    color: #444;
+}
+
+.pedido-status {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pedido-status__item {
+    position: relative;
+    display: flex;
+    gap: 0.9rem;
+    padding-bottom: 1.4rem;
+}
+
+.pedido-status__item:last-child {
+    padding-bottom: 0;
+}
+
+.pedido-status__item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 0.95rem;
+    top: 2rem;
+    bottom: 0.2rem;
+    width: 2px;
+    background: #dce8e1;
+}
+
+.pedido-status__marcador {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid #c7d8d0;
+    border-radius: 50%;
+    background: var(--branco);
+    color: var(--branco);
+    font-weight: 700;
+}
+
+.pedido-status__item--concluido .pedido-status__marcador {
+    border-color: #08b976;
+    background: #08b976;
+}
+
+.pedido-status__item--atual .pedido-status__marcador {
+    border-color: #08b976;
+    background: radial-gradient(circle, #08b976 35%, transparent 40%);
+}
+
+.pedido-status__item strong {
+    display: block;
+    font-size: 1.1rem;
+}
+
+.pedido-status__item p {
+    margin: 0.2rem 0 0;
+    color: #555;
+}
+
+.pedido-status__item:not(.pedido-status__item--concluido):not(.pedido-status__item--atual) strong,
+.pedido-status__item:not(.pedido-status__item--concluido):not(.pedido-status__item--atual) p {
+    color: #7a8a84;
+}
+
+.acompanhamento-acoes {
+    margin-top: 1.5rem;
+}

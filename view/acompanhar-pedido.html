@@ -3,9 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broto - Acompanhar Pedido</title>
+    <title>Broto - Acompanhar pedido</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/pedido.css">
+    <script src="../controller/header.js" defer></script>
 </head>
 <body>
-    <h1>Acompanhar Pedido</h1>
+    <broto-header></broto-header>
+    <main class="pedido pedido--acompanhamento">
+        <header class="acompanhamento-cabecalho">
+            <h1>Acompanhar pedido</h1>
+            <p>Acompanhe o status e as informações de entrega do seu pedido.</p>
+        </header>
+
+        <section class="pedido-confirmado acompanhamento-conteudo" aria-labelledby="acompanhamento-resumo-titulo" hidden>
+            <h2 id="acompanhamento-resumo-titulo" class="sr-only">Resumo do pedido</h2>
+            <section class="pedido-resumo acompanhamento-resumo" aria-label="Resumo do pedido">
+                <div class="pedido-resumo__dados">
+                    <span class="pedido-resumo__icone" aria-hidden="true"><img src="../images/cart.svg" alt=""></span>
+                    <div>
+                        <strong id="pedido-numero"></strong>
+                        <p id="pedido-data"></p>
+                    </div>
+                </div>
+                <div class="pedido-resumo__total">
+                    <span>Total do pedido</span>
+                    <strong id="pedido-total"></strong>
+                </div>
+            </section>
+
+            <div class="acompanhamento-grid">
+                <section class="acompanhamento-card" aria-labelledby="status-titulo">
+                    <h2 id="status-titulo" class="sr-only">Status do pedido</h2>
+                    <ol class="pedido-status">
+                        <li class="pedido-status__item pedido-status__item--concluido">
+                            <span class="pedido-status__marcador" aria-hidden="true">✓</span>
+                            <div>
+                                <strong>Pedido realizado</strong>
+                                <p id="status-realizado"></p>
+                            </div>
+                        </li>
+                        <li class="pedido-status__item pedido-status__item--atual">
+                            <span class="pedido-status__marcador" aria-hidden="true"></span>
+                            <div>
+                                <strong>Em preparação</strong>
+                                <p>Seu pedido está sendo preparado pelo vendedor.</p>
+                            </div>
+                        </li>
+                        <li class="pedido-status__item">
+                            <span class="pedido-status__marcador" aria-hidden="true"></span>
+                            <div>
+                                <strong>Saiu para entrega</strong>
+                            </div>
+                        </li>
+                        <li class="pedido-status__item">
+                            <span class="pedido-status__marcador" aria-hidden="true"></span>
+                            <div>
+                                <strong>Pedido entregue</strong>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+
+                <section class="acompanhamento-card acompanhamento-entrega" aria-labelledby="entrega-titulo">
+                    <h2 id="entrega-titulo">Informações de entrega</h2>
+                    <div class="acompanhamento-entrega__item">
+                        <span class="acompanhamento-entrega__icone" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#08b976" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.33-6-10a6 6 0 1 1 12 0c0 4.67-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>
+                        </span>
+                        <div>
+                            <h3>Endereço de entrega</h3>
+                            <p>Rua das Flores, 123 – Recife, PE</p>
+                        </div>
+                    </div>
+                    <div class="acompanhamento-entrega__item">
+                        <span class="acompanhamento-entrega__icone" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#08b976" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </span>
+                        <div>
+                            <h3>Previsão de entrega</h3>
+                            <p>Até 20/11/2026</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <nav class="pedido-acoes acompanhamento-acoes" aria-label="Ações do pedido">
+                <a href="./chat.html">Conversar com o vendedor</a>
+                <a href="./marketplace.html">← Voltar ao Marketplace</a>
+            </nav>
+        </section>
+
+        <section class="pedido-ausente" hidden>
+            <h1>Nenhum pedido para acompanhar</h1>
+            <p>Faça um pedido para visualizar o status por aqui.</p>
+            <nav class="pedido-acoes" aria-label="Navegação">
+                <a href="./marketplace.html">Voltar ao marketplace</a>
+            </nav>
+        </section>
+    </main>
+    <script>
+        (function () {
+            const orderStorageKey = 'broto-pedido-simulado';
+            const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+            const content = document.querySelector('.acompanhamento-conteudo');
+            const emptyState = document.querySelector('.pedido-ausente');
+            let order;
+            try {
+                order = JSON.parse(sessionStorage.getItem(orderStorageKey));
+            } catch {
+                order = null;
+            }
+
+            const date = new Date(order?.createdAt);
+            if (Number.isInteger(order?.number) && Number.isInteger(order?.totalCents) && Number.isFinite(date.getTime())) {
+                document.querySelector('#pedido-numero').textContent = `Pedido nº ${order.number}`;
+                document.querySelector('#pedido-data').textContent = `Realizado em ${date.toLocaleDateString('pt-BR')}`;
+                document.querySelector('#pedido-total').textContent = currencyFormatter.format(order.totalCents / 100);
+                const realizado = document.querySelector('#status-realizado');
+                realizado.textContent = `${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+                content.hidden = false;
+            } else {
+                emptyState.hidden = false;
+            }
+        })();
+    </script>
 </body>
 </html>
