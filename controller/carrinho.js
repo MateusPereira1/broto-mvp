@@ -1,4 +1,5 @@
 const cartStorageKey = 'broto-cart';
+const orderStorageKey = 'broto-pedido-simulado';
 const cartDrawer = document.querySelector('.cart-drawer');
 const drawerItems = cartDrawer.querySelector('.cart-drawer__items');
 const drawerEmpty = cartDrawer.querySelector('.cart-drawer__empty');
@@ -106,6 +107,10 @@ function createCartItem(item, index, drawer = false) {
     return article;
 }
 
+function calculateSubtotal(cart) {
+    return cart.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+}
+
 function renderCart() {
     const cart = readCart();
     const hasItems = cart.length > 0;
@@ -120,7 +125,7 @@ function renderCart() {
         checkoutForm.hidden = !hasItems;
         orderSummary.hidden = !hasItems;
 
-        const subtotal = cart.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+        const subtotal = calculateSubtotal(cart);
         subtotalElement.textContent = currencyFormatter.format(subtotal / 100);
         totalElement.textContent = currencyFormatter.format((subtotal + (hasItems ? shippingCost : 0)) / 100);
     }
@@ -211,9 +216,53 @@ document.addEventListener('click', (event) => {
 if (checkoutForm) {
     checkoutForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        checkoutMessage.textContent = 'Dados conferidos. O pagamento não é processado nesta demonstração.';
-        checkoutMessage.hidden = false;
+        const cart = readCart();
+        if (!cart.length) {
+            renderCart();
+            return;
+        }
+
+        const order = {
+            number: Math.floor(10000 + Math.random() * 90000),
+            createdAt: new Date().toISOString(),
+            totalCents: calculateSubtotal(cart) + shippingCost
+        };
+        try {
+            sessionStorage.setItem(orderStorageKey, JSON.stringify(order));
+            localStorage.removeItem(cartStorageKey);
+        } catch {
+            checkoutMessage.textContent = 'Não foi possível concluir o pedido simulado nesta aba.';
+            checkoutMessage.hidden = false;
+            return;
+        }
+        window.location.href = './confirmacao-pedido.html';
     });
+
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            renderCart();
+        }
+    });
+}
+
+const orderConfirmation = document.querySelector('.pedido-confirmado');
+if (orderConfirmation) {
+    let order;
+    try {
+        order = JSON.parse(sessionStorage.getItem(orderStorageKey));
+    } catch {
+        // Exibe a opção de voltar ao marketplace quando o resumo está indisponível.
+    }
+
+    const date = new Date(order?.createdAt);
+    if (Number.isInteger(order?.number) && Number.isInteger(order.totalCents) && Number.isFinite(date.getTime())) {
+        document.querySelector('#pedido-numero').textContent = `Pedido nº ${order.number}`;
+        document.querySelector('#pedido-data').textContent = `Realizado em ${date.toLocaleDateString('pt-BR')}`;
+        document.querySelector('#pedido-total').textContent = currencyFormatter.format(order.totalCents / 100);
+        orderConfirmation.hidden = false;
+    } else {
+        document.querySelector('.pedido-ausente').hidden = false;
+    }
 }
 
 renderCart();

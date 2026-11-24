@@ -3,9 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broto - Confirmação de Pedido</title>
+    <title>Broto - Confirmação de pedido</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/pedido.css">
+    <script src="../controller/header.js" defer></script>
+    <script src="../controller/carrinho.js" defer></script>
 </head>
 <body>
-    <h1>Confirmação de Pedido</h1>
+    <broto-header></broto-header>
+    <main class="pedido">
+        <section class="pedido-confirmado" aria-labelledby="pedido-titulo" hidden>
+            <header class="pedido-cabecalho">
+                <span class="pedido-icone" aria-hidden="true">✓</span>
+                <div>
+                    <h1 id="pedido-titulo">Pedido confirmado!</h1>
+                    <p>Seu pedido foi realizado na demonstração.</p>
+                </div>
+            </header>
+
+            <section class="pedido-resumo" aria-label="Resumo do pedido">
+                <div class="pedido-resumo__dados">
+                    <span class="pedido-resumo__icone" aria-hidden="true"><img src="../images/cart.svg" alt=""></span>
+                    <div>
+                        <strong id="pedido-numero"></strong>
+                        <p id="pedido-data"></p>
+                    </div>
+                </div>
+                <div class="pedido-resumo__total">
+                    <span>Total do pedido</span>
+                    <strong id="pedido-total"></strong>
+                </div>
+            </section>
+
+            <nav class="pedido-acoes" aria-label="Ações do pedido">
+                <a href="./chat.html">Conversar com o vendedor</a>
+                <a href="./marketplace.html">Voltar ao marketplace</a>
+            </nav>
+        </section>
+        <section class="pedido-ausente" hidden>
+            <h1>Nenhum pedido nesta aba</h1>
+            <nav class="pedido-acoes" aria-label="Navegação">
+                <a href="./marketplace.html">Voltar ao marketplace</a>
+            </nav>
+        </section>
+    </main>
 </body>
 </html>
