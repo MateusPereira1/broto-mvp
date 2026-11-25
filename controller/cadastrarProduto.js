@@ -1,4 +1,5 @@
-import { carregarCatalogo, lerProduto, salvarCatalogo } from "../model/catalogoProdutor.js";
+import { lerProduto } from "../model/catalogoProdutor.js";
+import { identificarProdutor } from "../model/produtor.js";
 import { COLECAO_PRODUTOS, criarRegistro } from "./api.js";
 
 const formulario = document.querySelector("#cadastro-produto");
@@ -103,6 +104,7 @@ formulario.addEventListener("submit", async (evento) => {
 
     status.textContent = "Publicando produto…";
     try {
+        cadastro.produtorId = identificarProdutor();
         await criarRegistro(COLECAO_PRODUTOS, cadastro);
     } catch {
         status.textContent = "";
@@ -112,13 +114,5 @@ formulario.addEventListener("submit", async (evento) => {
         return;
     }
 
-    try {
-        const produtos = carregarCatalogo();
-        produtos.push({ ...cadastro, ilustracao: "🌱" });
-        salvarCatalogo(produtos);
-    } catch {
-        status.textContent = "Produto publicado. Não foi possível atualizar a lista Meus produtos nesta aba.";
-        return;
-    }
     window.location.assign("./meus-produtos.html");
 });

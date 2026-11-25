@@ -5,10 +5,28 @@ export const COLECAO_PRODUTOS = "produtos";
 function montarUrl(colecao, id) {
   let url = BASE_URL + "/api/" + SQUAD + "/" + colecao;
   if (id) {
-    url = url + "/" + id;
+    url = url + "/" + encodeURIComponent(id);
   }
 
   return url;
+}
+
+export async function alterarProduto(id, dados) {
+  const resposta = await fetch(montarUrl(COLECAO_PRODUTOS, id), {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
+  });
+  if (!resposta.ok) {
+    throw new Error("Falha ao alterar o produto: " + resposta.status);
+  }
+}
+
+export async function excluirProduto(id) {
+  const resposta = await fetch(montarUrl(COLECAO_PRODUTOS, id), { method: "DELETE" });
+  if (!resposta.ok) {
+    throw new Error("Falha ao excluir o produto: " + resposta.status);
+  }
 }
 
 export async function listarRegistro(colecao) {

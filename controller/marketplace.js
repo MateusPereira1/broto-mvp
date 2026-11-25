@@ -55,6 +55,7 @@ async function carregarProduto() {
         if (!Array.isArray(resposta)) {
             listaProdutos = resposta.dados || [];
         }
+        listaProdutos = listaProdutos.filter((produto) => produto.ativo !== false);
 
         secaoProdutos.innerHTML = "";
         for (let i = 0; i < listaProdutos.length; i++) {

@@ -26,6 +26,7 @@
                 <button type="button" data-categoria="Legume" aria-pressed="false">Legumes</button>
             </div>
             <ul class="produtos-produtor"></ul>
+            <p id="produtos-mensagem" role="status"></p>
             <p id="produtos-vazio" hidden>Nenhum produto nesta categoria.</p>
             <a class="produto-novo" href="./cadastrar-produto.html">＋ Cadastrar novo produto</a>
         </section>
@@ -71,6 +72,7 @@
                     </select>
                 </label>
                 <label class="produto-opcao"><input name="excedente" type="checkbox"> Excedente</label>
+                <p id="produto-edicao-mensagem" role="status"></p>
                 <div class="produto-dialogo-acoes">
                     <button type="button" id="produto-cancelar">Cancelar</button>
                     <button type="submit">Salvar</button>
