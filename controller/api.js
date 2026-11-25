@@ -18,7 +18,7 @@ export async function listarRegistro(colecao) {
       throw new Error("Falha em listar os registros: " + resposta.status);
     }
 
-    const dados = await resposta.json;
+    const dados = await resposta.json();
     return dados
   } catch(erro) {
     console.error("Erro ao listar " + colecao + ":", erro);
@@ -40,7 +40,7 @@ export async function criarRegistro(colecao, dados) {
       throw new Error("Falha na criação do registro: " + resposta.status);
     }
 
-    const criada = await resposta.json;
+    const criada = await resposta.json();
     return criada;
   } catch(erro) {
     console.error("Erro ao criar em " + colecao + ":", erro);
