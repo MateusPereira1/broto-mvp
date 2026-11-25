@@ -24,7 +24,7 @@
                     <span class="cadastro-produto__foto-icone" aria-hidden="true">▧</span>
                     <img id="foto-previa" alt="Prévia da foto selecionada" hidden>
                     <strong>Adicionar foto</strong>
-                    <small>JPG ou PNG, até 5 MB. Prévia local.</small>
+                    <small>JPG ou PNG, até 5 MB.</small>
                     <input class="sr-only" type="file" id="foto-produto" accept="image/jpeg,image/png">
                 </label>
                 <div class="cadastro-produto__identidade">
@@ -44,6 +44,10 @@
 
             <label>Descrição
                 <textarea name="descricao" rows="3" placeholder="Ex.: Produto fresco, cultivado sem agrotóxicos."></textarea>
+            </label>
+
+            <label>Localização *
+                <input name="local" placeholder="Ex.: Recife, PE" required>
             </label>
 
             <div class="cadastro-produto__venda">
@@ -71,6 +75,7 @@
             </fieldset>
 
             <p id="cadastro-produto-erro" role="alert" hidden></p>
+            <p id="cadastro-produto-status" role="status"></p>
             <div class="cadastro-produto__acoes">
                 <a href="./meus-produtos.html">Cancelar</a>
                 <button type="submit">Cadastrar produto</button>

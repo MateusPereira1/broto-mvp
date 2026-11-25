@@ -71,6 +71,14 @@
     text-align: center;
 }
 
+.produto-ilustracao img {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
 .produto-categoria,
 .produto-excedente {
     padding: 0.15rem 0.65rem;

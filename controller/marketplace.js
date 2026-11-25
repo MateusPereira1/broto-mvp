@@ -1,4 +1,4 @@
-import { listarRegistro } from "./api.js";
+import { COLECAO_PRODUTOS, listarRegistro } from "./api.js";
 
 const secaoProdutos = document.querySelector(".products");
 
@@ -48,7 +48,7 @@ function criarCard(item) {
 
 async function carregarProduto() {
     try {
-        const resposta = await listarRegistro("produtos");
+        const resposta = await listarRegistro(COLECAO_PRODUTOS);
         console.log(resposta);
 
         let listaProdutos = resposta;

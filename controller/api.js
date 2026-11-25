@@ -1,5 +1,6 @@
 const BASE_URL = "https://psel-api.vercel.app";
 const SQUAD = "MadrugaTech";
+export const COLECAO_PRODUTOS = "produtos";
 
 function montarUrl(colecao, id) {
   let url = BASE_URL + "/api/" + SQUAD + "/" + colecao;
@@ -29,7 +30,7 @@ export async function listarRegistro(colecao) {
 export async function criarRegistro(colecao, dados) {
   try {
     const opcoes = {
-      method: "Post",
+      method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(dados)
     };

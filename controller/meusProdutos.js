@@ -51,7 +51,14 @@ function renderizarProdutos() {
 
     for (const produto of visiveis) {
         const item = modelo.content.cloneNode(true);
-        item.querySelector(".produto-ilustracao").textContent = produto.ilustracao;
+        const ilustracao = item.querySelector(".produto-ilustracao");
+        ilustracao.textContent = produto.ilustracao;
+        if (produto.imagem) {
+            const imagem = document.createElement("img");
+            imagem.src = produto.imagem;
+            imagem.alt = "";
+            ilustracao.replaceChildren(imagem);
+        }
         item.querySelector("h2").textContent = produto.nome;
         item.querySelector(".produto-categoria").textContent = produto.categoria;
         item.querySelector(".produto-preco").textContent = `${moeda.format(produto.preco)} / ${produto.unidade}`;
