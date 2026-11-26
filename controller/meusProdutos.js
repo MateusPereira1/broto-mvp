@@ -87,9 +87,10 @@ function renderizarProdutos() {
         const item = modelo.content.cloneNode(true);
         const ilustracao = item.querySelector(".produto-ilustracao");
         ilustracao.textContent = "🌱";
-        if (produto.imagem) {
+        const urlImagem = produto.imagens?.[0] || produto.imagem;
+        if (urlImagem) {
             const imagem = document.createElement("img");
-            imagem.src = produto.imagem;
+            imagem.src = urlImagem;
             imagem.alt = "";
             ilustracao.replaceChildren(imagem);
         }

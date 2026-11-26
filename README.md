@@ -40,6 +40,26 @@ com retirada ou entrega combinada.
 
 > Marque os itens conforme forem concluídos.
 
+## Cadastro de produtos com imagens
+
+O cadastro envia as imagens através de um backend Node para o ImgBB. Após todos
+os uploads serem concluídos, o produto é salvo na API NoSQL com `imagens`,
+contendo uma lista de URLs. Cadastros antigos sem esse campo continuam válidos,
+assim como o cadastro de produtos sem imagens.
+
+Use `npm install` e `npm start` para executar localmente. Configure
+`IMGBB_API_KEY` no `.env` e acesse
+`http://localhost:3000/view/cadastrar-produto.html`. O formulário aceita até
+duas imagens JPG, PNG ou WEBP de até 32 MB; qualquer falha no upload cancela o
+cadastro.
+
+No GitHub Pages, o frontend envia os arquivos ao backend configurado em
+`controller/config.js`. O backend pode ser publicado como Web Service no Render
+com `npm install` no build e `npm start` na inicialização. Configure
+`IMGBB_API_KEY`, `NOSQL_PRODUCTS_URL` e `FRONTEND_ORIGINS` nas variáveis do
+serviço. A chave do ImgBB deve permanecer apenas no backend e nunca ser
+publicada no frontend.
+
 ## 🔌 API
 
 Base: `https://psel-api.vercel.app/api/grupo-5/{colecao}`

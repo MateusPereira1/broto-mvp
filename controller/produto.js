@@ -35,8 +35,9 @@ function preencherDetalhes(produto) {
         : "Estoque não informado";
     detalhe.querySelector(".product-detail__description p").textContent = produto.descricao || "Sem descrição.";
 
-    imagem.src = produto.imagem || IMAGEM_PRODUTO_PADRAO;
-    imagem.alt = produto.imagem ? nome : "";
+    const urlImagem = produto.imagens?.[0] || produto.imagem;
+    imagem.src = urlImagem || IMAGEM_PRODUTO_PADRAO;
+    imagem.alt = urlImagem ? nome : "";
     detalhe.querySelectorAll(".product-detail__actions button").forEach((botao) => {
         botao.dataset.addToCart = String(produto.id);
         botao.dataset.stockLimit = String(limite);

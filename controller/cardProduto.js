@@ -27,8 +27,9 @@ export function criarCardProduto(modelo, produto) {
     card.querySelector(".product-card__buy").href = link;
 
     const imagem = card.querySelector(".product-card__image");
-    imagem.src = produto.imagem || IMAGEM_PRODUTO_PADRAO;
-    imagem.alt = produto.imagem ? nome : "";
+    const urlImagem = produto.imagens?.[0] || produto.imagem;
+    imagem.src = urlImagem || IMAGEM_PRODUTO_PADRAO;
+    imagem.alt = urlImagem ? nome : "";
 
     const favorito = card.querySelector(".product-card__favorite");
     favorito.setAttribute("aria-label", `Adicionar ${nome} aos favoritos`);

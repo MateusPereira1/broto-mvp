@@ -263,14 +263,19 @@
 }
 
 .cadastro-produto__inicio,
+.cadastro-produto__imagens,
 .cadastro-produto__venda {
     display: grid;
     gap: 1.5rem;
 }
 
 .cadastro-produto__inicio {
-    grid-template-columns: minmax(12rem, 2fr) minmax(0, 3fr);
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     align-items: start;
+}
+
+.cadastro-produto__imagens {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .cadastro-produto__venda {
@@ -403,6 +408,7 @@
 
 @media (max-width: 600px) {
     .cadastro-produto__inicio,
+    .cadastro-produto__imagens,
     .cadastro-produto__venda,
     .cadastro-produto__acoes {
         grid-template-columns: 1fr;
