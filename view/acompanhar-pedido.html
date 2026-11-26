@@ -35,7 +35,9 @@
 
             <div class="acompanhamento-grid">
                 <section class="acompanhamento-card" aria-labelledby="status-titulo">
-                    <h2 id="status-titulo" class="sr-only">Status do pedido</h2>
+                    <h2 id="status-titulo">Status do pedido</h2>
+                    <p id="status-atualizacao" role="status"></p>
+                    <ul id="status-vendedores" hidden></ul>
                     <ol class="pedido-status">
                         <li class="pedido-status__item pedido-status__item--concluido" aria-current="step">
                             <span class="pedido-status__marcador" aria-hidden="true">✓</span>
@@ -47,19 +49,19 @@
                         <li class="pedido-status__item">
                             <span class="pedido-status__marcador" aria-hidden="true"></span>
                             <div>
-                                <strong>Em preparação</strong>
+                                <strong>Pedido confirmado</strong>
                             </div>
                         </li>
                         <li class="pedido-status__item">
                             <span class="pedido-status__marcador" aria-hidden="true"></span>
                             <div>
-                                <strong>Saiu para entrega</strong>
+                                <strong>Pronto para retirada ou em entrega</strong>
                             </div>
                         </li>
                         <li class="pedido-status__item">
                             <span class="pedido-status__marcador" aria-hidden="true"></span>
                             <div>
-                                <strong>Pedido entregue</strong>
+                                <strong>Pedido concluído</strong>
                             </div>
                         </li>
                     </ol>
@@ -102,7 +104,62 @@
             </nav>
         </section>
     </main>
-    <script>
+    <script type="module">
+        import { associarVendedores, etapaDoVendedor, etapas, listarPedidos, listarStatus } from "../controller/pedidos.js";
+
+        async function atualizarStatus(pedidoId) {
+            const mensagem = document.querySelector('#status-atualizacao');
+            if (pedidoId == null) {
+                mensagem.textContent = 'Atualizações indisponíveis para este pedido.';
+                return;
+            }
+
+            try {
+                const [pedidos, status] = await Promise.all([listarPedidos(), listarStatus()]);
+                const registro = pedidos.find((pedido) => String(pedido.id) === String(pedidoId));
+                if (!registro) {
+                    throw new Error('Pedido indisponível');
+                }
+
+                const [pedido] = await associarVendedores([registro]);
+                const vendedores = new Map();
+                for (const item of pedido.itens) {
+                    if (item.produtorId) {
+                        vendedores.set(item.produtorId, item.produtor);
+                    }
+                }
+
+                const lista = document.querySelector('#status-vendedores');
+                const progresso = [];
+                for (const [produtorId, nome] of vendedores) {
+                    const etapa = etapaDoVendedor(status, pedidoId, produtorId);
+                    progresso.push(etapa);
+                    const linha = document.createElement('li');
+                    linha.textContent = `${nome || `Vendedor ${progresso.length}`}: ${etapas[etapa]}`;
+                    lista.append(linha);
+                }
+                lista.hidden = progresso.length < 2;
+
+                if (!pedido.itens.length || pedido.itens.some((item) => !item.produtorId)) {
+                    mensagem.textContent = 'Alguns itens estão sem atualizações de acompanhamento.';
+                    progresso.push(0);
+                }
+
+                const etapaAtual = Math.min(...progresso);
+                document.querySelectorAll('.pedido-status__item').forEach((item, indice) => {
+                    item.classList.toggle('pedido-status__item--concluido', indice <= etapaAtual);
+                    item.classList.toggle('pedido-status__item--atual', indice === etapaAtual);
+                    item.querySelector('.pedido-status__marcador').textContent = indice <= etapaAtual ? '✓' : '';
+                    item.removeAttribute('aria-current');
+                    if (indice === etapaAtual) {
+                        item.setAttribute('aria-current', 'step');
+                    }
+                });
+            } catch {
+                mensagem.textContent = 'Não foi possível consultar as atualizações. Recarregue a página para tentar novamente.';
+            }
+        }
+
         (function () {
             const orderStorageKey = 'broto-ultimo-pedido';
             const currencyFormatter = new Intl.NumberFormat('pt-BR', {
@@ -127,6 +184,7 @@
                 const realizado = document.querySelector('#status-realizado');
                 realizado.textContent = `${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
                 content.hidden = false;
+                atualizarStatus(order.id);
             } else {
                 emptyState.hidden = false;
             }

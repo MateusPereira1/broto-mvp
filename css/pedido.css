@@ -272,3 +272,45 @@
 .acompanhamento-acoes {
     margin-top: 1.5rem;
 }
+
+.pedidos-recebidos {
+    display: grid;
+    gap: 1rem;
+}
+
+.pedidos-mensagem:empty {
+    display: none;
+}
+
+.pedidos-recebidos h2 {
+    margin: 0;
+}
+
+.pedidos-recebidos ul {
+    padding-inline-start: 1.25rem;
+}
+
+.pedido-recebido-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid #d4d4d4;
+}
+
+.pedido-recebido-status {
+    margin: 0;
+    font-weight: 600;
+}
+
+.pedidos-recebidos button {
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--verde-principal);
+    border-radius: 2rem;
+    background: var(--verde-principal);
+    color: var(--texto-escuro);
+    font: inherit;
+    cursor: pointer;
+}

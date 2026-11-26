@@ -323,6 +323,8 @@ if (checkoutForm) {
                 number: Math.floor(10000 + Math.random() * 90000),
                 itens: cart.map((item) => ({
                     produtoId: item.id,
+                    produtorId: ofertas.get(item.id).produtorId,
+                    produtor: ofertas.get(item.id).produtor,
                     nome: item.name,
                     unidade: item.unit,
                     quantidade: item.quantity,

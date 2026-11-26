@@ -4,6 +4,38 @@
     padding: clamp(2rem, 6vw, 4rem) 0;
 }
 
+.produtos-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid #078653;
+    border-radius: 2rem;
+    color: #096344;
+    background: var(--branco);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.produtos-voltar:hover {
+    background: #e7faf2;
+}
+
+.produtos-voltar:focus-visible {
+    outline: 2px solid #096344;
+    outline-offset: 3px;
+}
+
+.produtos-voltar__seta {
+    display: inline-grid;
+    place-items: center;
+    width: 1.125rem;
+    flex: none;
+    font-size: 1.125rem;
+    line-height: 1;
+}
+
 .produtos-descricao {
     margin-top: -1rem;
     color: #595959;

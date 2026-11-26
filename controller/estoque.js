@@ -21,6 +21,8 @@ export async function consultarEstoqueEPrecos() {
             const centavos = Math.round(valor * 100);
             return [String(produto.id), {
                 limite: limiteEstoque(produto),
+                produtorId: produto.produtorId,
+                produtor: produto.produtor,
                 precoCentavos: Number.isFinite(valor) && valor >= 0 && Number.isSafeInteger(centavos)
                     ? centavos
                     : null,
