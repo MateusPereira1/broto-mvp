@@ -2,7 +2,7 @@ import { COLECAO_PRODUTOS, listarRegistro } from "./api.js";
 import { criarCardProduto, produtoDisponivel } from "./cardProduto.js";
 
 const secaoProdutos = document.querySelector(".products");
-const modeloCard = secaoProdutos.querySelector(".product-card").cloneNode(true);
+const modeloCard = document.querySelector("#product-card-template").content.firstElementChild;
 const busca = document.querySelector("#busca-produtos");
 const filtroExcedentes = document.querySelector("#filtro-excedentes");
 const mensagemVazia = document.querySelector(".marketplace__empty");
