@@ -30,9 +30,15 @@
 
                 <form id="form-login" novalidate>
                     <fieldset class="login-perfil">
-                        <legend>Entrar como</legend>
-                        <label><input type="radio" name="perfil" value="comprador" checked> Comprador</label>
-                        <label><input type="radio" name="perfil" value="produtor"> Produtor</label>
+                        <legend class="sr-only">Entrar como</legend>
+                        <label>
+                            <input type="radio" name="perfil" value="comprador" checked>
+                            <span>COMPRADOR</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="perfil" value="vendedor">
+                            <span>VENDEDOR</span>
+                        </label>
                     </fieldset>
 
                     <label class="sr-only" for="email">Email</label>
