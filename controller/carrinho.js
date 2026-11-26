@@ -1,7 +1,8 @@
+import { COLECAO_PEDIDOS, criarRegistro } from "./api.js";
 import { consultarEstoque } from "./estoque.js";
 
 const cartStorageKey = 'broto-cart';
-const orderStorageKey = 'broto-pedido-simulado';
+const orderStorageKey = 'broto-ultimo-pedido';
 const cartDrawer = document.querySelector('.cart-drawer');
 const drawerItems = cartDrawer.querySelector('.cart-drawer__items');
 const drawerEmpty = cartDrawer.querySelector('.cart-drawer__empty');
@@ -21,7 +22,7 @@ const currencyFormatter = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
 });
-let checkingStock = false;
+let cartOperationPending = false;
 
 function readCart() {
     const storedCart = localStorage.getItem(cartStorageKey);
@@ -163,7 +164,7 @@ async function adjustQuantity(button) {
 
     if (amount > 0) {
         const id = item.id;
-        checkingStock = true;
+        cartOperationPending = true;
         button.disabled = true;
         try {
             const stock = await consultarEstoque();
@@ -178,7 +179,7 @@ async function adjustQuantity(button) {
             showMessage(message, 'Não foi possível conferir o estoque. Tente novamente.');
             return;
         } finally {
-            checkingStock = false;
+            cartOperationPending = false;
             button.disabled = false;
         }
     }
@@ -190,7 +191,7 @@ async function adjustQuantity(button) {
 
 document.addEventListener('click', (event) => {
     const target = event.target;
-    if (!(target instanceof Element) || checkingStock) {
+    if (!(target instanceof Element) || cartOperationPending) {
         return;
     }
 
@@ -264,7 +265,7 @@ document.addEventListener('click', (event) => {
 if (checkoutForm) {
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        if (checkingStock) {
+        if (cartOperationPending) {
             return;
         }
         const cart = readCart();
@@ -273,12 +274,24 @@ if (checkoutForm) {
             return;
         }
 
-        checkingStock = true;
+        const cartSnapshot = JSON.stringify(cart);
+        const checkoutData = new FormData(checkoutForm);
+        const deliveryAddress = ['endereco', 'complemento', 'cidade', 'cep']
+            .map((field) => String(checkoutData.get(field) ?? '').trim())
+            .filter(Boolean)
+            .join(', ');
+        cartOperationPending = true;
         checkoutSubmit.disabled = true;
         showMessage(checkoutMessage);
         try {
-            const stock = await consultarEstoque();
-            if (JSON.stringify(cart) !== JSON.stringify(readCart())) {
+            let stock;
+            try {
+                stock = await consultarEstoque();
+            } catch {
+                showMessage(checkoutMessage, 'Não foi possível conferir o estoque. Seu carrinho foi preservado.');
+                return;
+            }
+            if (cartSnapshot !== JSON.stringify(readCart())) {
                 renderCart();
                 showMessage(checkoutMessage, 'O carrinho mudou. Confira os itens e tente novamente.');
                 return;
@@ -288,27 +301,52 @@ if (checkoutForm) {
                 showMessage(checkoutMessage, unavailable.map((item) => stockMessage(item, stock.get(item.id) ?? 0)).join(' '));
                 return;
             }
-        } catch {
-            showMessage(checkoutMessage, 'Não foi possível conferir o estoque. Seu carrinho foi preservado.');
-            return;
+
+            const subtotalCents = calculateSubtotal(cart);
+            const order = {
+                number: Math.floor(10000 + Math.random() * 90000),
+                itens: cart.map((item) => ({
+                    produtoId: item.id,
+                    nome: item.name,
+                    unidade: item.unit,
+                    quantidade: item.quantity,
+                    precoUnitarioCentavos: item.priceCents,
+                })),
+                subtotalCents,
+                shippingCents: shippingCost,
+                totalCents: subtotalCents + shippingCost,
+            };
+
+            let savedOrder;
+            try {
+                savedOrder = await criarRegistro(COLECAO_PEDIDOS, order);
+            } catch {
+                showMessage(checkoutMessage, 'Não foi possível registrar o pedido. Seu carrinho foi preservado.');
+                return;
+            }
+
+            const summary = {
+                id: savedOrder?.id,
+                number: order.number,
+                createdAt: savedOrder?.createdAt,
+                totalCents: order.totalCents,
+                deliveryAddress,
+            };
+            try {
+                if (cartSnapshot === JSON.stringify(readCart())) {
+                    localStorage.removeItem(cartStorageKey);
+                }
+                sessionStorage.setItem(orderStorageKey, JSON.stringify(summary));
+            } catch {
+                renderCart();
+                showMessage(checkoutMessage, `Pedido nº ${order.number} registrado. O resumo não pôde ser aberto nesta aba.`);
+                return;
+            }
+            window.location.href = './confirmacao-pedido.html';
         } finally {
-            checkingStock = false;
+            cartOperationPending = false;
             checkoutSubmit.disabled = false;
         }
-
-        const order = {
-            number: Math.floor(10000 + Math.random() * 90000),
-            createdAt: new Date().toISOString(),
-            totalCents: calculateSubtotal(cart) + shippingCost
-        };
-        try {
-            sessionStorage.setItem(orderStorageKey, JSON.stringify(order));
-            localStorage.removeItem(cartStorageKey);
-        } catch {
-            showMessage(checkoutMessage, 'Não foi possível concluir o pedido simulado nesta aba.');
-            return;
-        }
-        window.location.href = './confirmacao-pedido.html';
     });
 
     window.addEventListener('pageshow', (event) => {
@@ -328,7 +366,7 @@ const orderConfirmation = document.querySelector('.pedido-confirmado');
 if (orderConfirmation) {
     let order;
     try {
-        order = JSON.parse(sessionStorage.getItem(orderStorageKey));
+        order = JSON.parse(sessionStorage.getItem(orderStorageKey) ?? sessionStorage.getItem('broto-pedido-simulado'));
     } catch {
         // Exibe a opção de voltar ao marketplace quando o resumo está indisponível.
     }

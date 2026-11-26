@@ -1,6 +1,7 @@
 const BASE_URL = "https://psel-api.vercel.app";
 const SQUAD = "MadrugaTech";
 export const COLECAO_PRODUTOS = "produtos";
+export const COLECAO_PEDIDOS = "pedidos";
 
 function montarUrl(colecao, id) {
   let url = BASE_URL + "/api/" + SQUAD + "/" + colecao;
