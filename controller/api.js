@@ -1,3 +1,5 @@
+import { URL_BACKEND_UPLOAD } from "./config.js";
+
 const BASE_URL = "https://psel-api.vercel.app";
 const SQUAD = "MadrugaTech";
 export const COLECAO_PRODUTOS = "produtos";
@@ -66,4 +68,19 @@ export async function criarRegistro(colecao, dados) {
     console.error("Erro ao criar em " + colecao + ":", erro);
     throw erro;
   }
+}
+
+export async function criarProdutoComImagens(formData) {
+  const endpoint = URL_BACKEND_UPLOAD
+    ? new URL("/api/produtos", URL_BACKEND_UPLOAD).href
+    : "/api/produtos";
+  const resposta = await fetch(endpoint, {
+    method: "POST",
+    body: formData,
+  });
+  const resultado = await resposta.json().catch(() => ({}));
+  if (!resposta.ok) {
+    throw new Error(resultado.error || "Falha na criação do produto: " + resposta.status);
+  }
+  return resultado;
 }

@@ -1,63 +1,56 @@
 import { lerProduto } from "../model/catalogoProdutor.js";
 import { identificarProdutor } from "../model/produtor.js";
-import { COLECAO_PRODUTOS, criarRegistro } from "./api.js";
+import { criarProdutoComImagens } from "./api.js";
 
 const formulario = document.querySelector("#cadastro-produto");
-const foto = document.querySelector("#foto-produto");
-const previa = document.querySelector("#foto-previa");
-const icone = document.querySelector(".cadastro-produto__foto-icone");
+const camposImagem = [
+    { campo: document.querySelector("#foto-produto-1"), previa: document.querySelector("#foto-previa-1") },
+    { campo: document.querySelector("#foto-produto-2"), previa: document.querySelector("#foto-previa-2") },
+];
 const erro = document.querySelector("#cadastro-produto-erro");
 const status = document.querySelector("#cadastro-produto-status");
 const botaoCadastrar = formulario.querySelector('button[type="submit"]');
-let urlFoto;
+const linkProdutos = document.querySelector("#link-produtos");
+const linkCancelar = document.querySelector("#link-cancelar");
+const tiposImagemPermitidos = new Set(["image/jpeg", "image/png", "image/webp"]);
+const tamanhoMaximoImagem = 32 * 1024 * 1024;
+const urlsPrevia = new Map();
 
 function mostrarErro(mensagem) {
     erro.textContent = mensagem;
     erro.hidden = !mensagem;
 }
 
-async function prepararImagem() {
-    await previa.decode();
-    const largura = previa.naturalWidth;
-    const altura = previa.naturalHeight;
-    const escala = Math.min(1, 800 / Math.max(largura, altura));
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.max(1, Math.round(largura * escala));
-    canvas.height = Math.max(1, Math.round(altura * escala));
+for (const { campo, previa } of camposImagem) {
+    campo.addEventListener("change", () => {
+        const urlAnterior = urlsPrevia.get(campo);
+        if (urlAnterior) {
+            URL.revokeObjectURL(urlAnterior);
+            urlsPrevia.delete(campo);
+        }
+        previa.removeAttribute("src");
+        previa.hidden = true;
+        previa.parentElement.querySelector(".cadastro-produto__foto-icone").hidden = false;
+        campo.setCustomValidity("");
+        mostrarErro("");
 
-    const contexto = canvas.getContext("2d");
-    contexto.fillStyle = "#ffffff";
-    contexto.fillRect(0, 0, canvas.width, canvas.height);
-    contexto.drawImage(previa, 0, 0, canvas.width, canvas.height);
-    return canvas.toDataURL("image/jpeg", 0.8);
+        const arquivo = campo.files[0];
+        if (!arquivo) {
+            return;
+        }
+        if (!tiposImagemPermitidos.has(arquivo.type) || arquivo.size > tamanhoMaximoImagem) {
+            const mensagem = "Escolha uma imagem JPG, PNG ou WEBP de até 32 MB.";
+            campo.setCustomValidity(mensagem);
+            mostrarErro(mensagem);
+            return;
+        }
+        const url = URL.createObjectURL(arquivo);
+        urlsPrevia.set(campo, url);
+        previa.src = url;
+        previa.hidden = false;
+        previa.parentElement.querySelector(".cadastro-produto__foto-icone").hidden = true;
+    });
 }
-
-foto.addEventListener("change", () => {
-    if (urlFoto) {
-        URL.revokeObjectURL(urlFoto);
-        urlFoto = undefined;
-    }
-    previa.removeAttribute("src");
-    previa.hidden = true;
-    icone.hidden = false;
-    mostrarErro("");
-    foto.setCustomValidity("");
-
-    const arquivo = foto.files[0];
-    if (!arquivo) {
-        return;
-    }
-    if (!["image/jpeg", "image/png"].includes(arquivo.type) || arquivo.size > 5 * 1024 * 1024) {
-        const mensagem = "Escolha uma foto JPG ou PNG de até 5 MB.";
-        foto.setCustomValidity(mensagem);
-        mostrarErro(mensagem);
-        return;
-    }
-    urlFoto = URL.createObjectURL(arquivo);
-    previa.src = urlFoto;
-    previa.hidden = false;
-    icone.hidden = true;
-});
 
 formulario.addEventListener("submit", async (evento) => {
     evento.preventDefault();
@@ -93,31 +86,57 @@ formulario.addEventListener("submit", async (evento) => {
 
     mostrarErro("");
     botaoCadastrar.disabled = true;
-    foto.disabled = true;
-    if (urlFoto) {
-        status.textContent = "Preparando foto…";
-        try {
-            cadastro.imagem = await prepararImagem();
-        } catch {
-            status.textContent = "";
-            mostrarErro("Não foi possível ler a foto. Escolha outro arquivo.");
-            foto.disabled = false;
-            botaoCadastrar.disabled = false;
-            return;
-        }
-    }
+    camposImagem.forEach(({ campo }) => {
+        campo.disabled = true;
+    });
 
-    status.textContent = "Publicando produto…";
+    status.textContent = "Enviando imagens e publicando produto…";
     try {
         cadastro.produtorId = identificarProdutor();
-        await criarRegistro(COLECAO_PRODUTOS, cadastro);
-    } catch {
-        status.textContent = "";
-        mostrarErro("Não foi possível publicar o produto. Tente novamente.");
-        foto.disabled = false;
-        botaoCadastrar.disabled = false;
-        return;
-    }
+        const dados = new FormData(formulario);
+        dados.delete("imagem1");
+        dados.delete("imagem2");
+        camposImagem.forEach(({ campo }) => {
+            const arquivo = campo.files[0];
+            if (arquivo) {
+                dados.append(campo.name, arquivo);
+            }
+        });
+        for (const [nome, valor] of Object.entries(cadastro)) {
+            dados.set(nome, String(valor));
+        }
 
-    window.location.assign("./meus-produtos.html");
+        const resposta = await criarProdutoComImagens(dados);
+        const imagens = Array.isArray(resposta.imagens) ? resposta.imagens : [];
+        let indiceImagem = 0;
+        camposImagem.forEach(({ campo, previa }) => {
+            if (!campo.files[0]) {
+                return;
+            }
+            const url = imagens[indiceImagem++];
+            if (!url) return;
+            const urlAnterior = urlsPrevia.get(campo);
+            if (urlAnterior) {
+                URL.revokeObjectURL(urlAnterior);
+                urlsPrevia.delete(campo);
+            }
+            previa.src = url;
+            previa.hidden = false;
+            previa.parentElement.querySelector(".cadastro-produto__foto-icone").hidden = true;
+        });
+        status.textContent = "Produto publicado com sucesso.";
+        linkProdutos.hidden = false;
+        linkCancelar.hidden = true;
+    } catch (falha) {
+        status.textContent = "";
+        mostrarErro(falha.message || "Não foi possível publicar o produto. Tente novamente.");
+        camposImagem.forEach(({ campo }) => {
+            campo.disabled = false;
+        });
+        botaoCadastrar.disabled = false;
+    }
+});
+
+window.addEventListener("pagehide", () => {
+    urlsPrevia.forEach((url) => URL.revokeObjectURL(url));
 });

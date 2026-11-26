@@ -18,15 +18,24 @@
         <h1>Cadastrar produto</h1>
         <p class="produtos-descricao">Adicione um produto ao seu catálogo.</p>
 
-        <form id="cadastro-produto" class="cadastro-produto">
+        <form id="cadastro-produto" class="cadastro-produto" enctype="multipart/form-data">
             <div class="cadastro-produto__inicio">
-                <label class="cadastro-produto__foto">
-                    <span class="cadastro-produto__foto-icone" aria-hidden="true">▧</span>
-                    <img id="foto-previa" alt="Prévia da foto selecionada" hidden>
-                    <strong>Adicionar foto</strong>
-                    <small>JPG ou PNG, até 5 MB.</small>
-                    <input class="sr-only" type="file" id="foto-produto" accept="image/jpeg,image/png">
-                </label>
+                <div class="cadastro-produto__imagens">
+                    <label class="cadastro-produto__foto">
+                        <span class="cadastro-produto__foto-icone" aria-hidden="true">▧</span>
+                        <img id="foto-previa-1" alt="Prévia da primeira imagem" hidden>
+                        <strong>Adicionar primeira imagem</strong>
+                        <small>JPG, PNG ou WEBP, até 32 MB.</small>
+                        <input class="sr-only" type="file" id="foto-produto-1" name="imagem1" accept="image/jpeg,image/png,image/webp">
+                    </label>
+                    <label class="cadastro-produto__foto">
+                        <span class="cadastro-produto__foto-icone" aria-hidden="true">▧</span>
+                        <img id="foto-previa-2" alt="Prévia da segunda imagem" hidden>
+                        <strong>Adicionar segunda imagem</strong>
+                        <small>Opcional · JPG, PNG ou WEBP, até 32 MB.</small>
+                        <input class="sr-only" type="file" id="foto-produto-2" name="imagem2" accept="image/jpeg,image/png,image/webp">
+                    </label>
+                </div>
                 <div class="cadastro-produto__identidade">
                     <label>Nome do produto *
                         <input name="nome" placeholder="Ex.: Banana, alface, tomate" required>
@@ -81,7 +90,8 @@
             <p id="cadastro-produto-erro" role="alert" hidden></p>
             <p id="cadastro-produto-status" role="status"></p>
             <div class="cadastro-produto__acoes">
-                <a href="./meus-produtos.html">Cancelar</a>
+                <a id="link-produtos" href="./meus-produtos.html" hidden>Ver meus produtos</a>
+                <a id="link-cancelar" href="./meus-produtos.html">Cancelar</a>
                 <button type="submit">Cadastrar produto</button>
             </div>
         </form>
