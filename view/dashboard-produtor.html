@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel do produtor no Broto.">
+    <title>Broto - Dashboard do Produtor</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/dashboard-produtor.css">
+    <script src="../controller/header.js" defer></script>
+    <script src="../controller/carrinho.js" defer></script>
+    <script src="../controller/dashboardProdutor.js" defer></script>
+</head>
+<body>
+    <broto-header></broto-header>
+
+    <main class="dashboard">
+        <nav class="dashboard__sidebar" aria-label="Menu do produtor">
+            <ul class="dashboard__menu">
+                <li>
+                    <a class="dashboard__menu-link is-active" href="./dashboard-produtor.html" aria-current="page">
+                        <span class="dashboard__menu-icone" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dashboard__menu-link" href="./meus-produtos.html">
+                        <span class="dashboard__menu-icone" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 21v-9m0 0 8-4.5M12 12 4 7.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span>Meus produtos</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dashboard__menu-link" href="./acompanhar-pedido.html">
+                        <span class="dashboard__menu-icone" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 7H6.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1.3" fill="currentColor"/><circle cx="17" cy="19" r="1.3" fill="currentColor"/></svg>
+                        </span>
+                        <span>Pedidos</span>
+                    </a>
+                </li>
+            </ul>
+            <a class="dashboard__menu-link dashboard__sair" href="../index.html">
+                <span class="dashboard__menu-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 16l4-4-4-4m4 4H4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span>Sair</span>
+            </a>
+        </nav>
+
+        <section class="dashboard__conteudo" aria-labelledby="dashboard-titulo">
+            <h1 id="dashboard-titulo">Olá, Produtor!</h1>
+
+            <div class="dashboard__estatisticas" aria-label="Resumo">
+                <article class="estatistica-card">
+                    <div class="estatistica-card__topo">
+                        <span>Pedidos</span>
+                        <span class="estatistica-card__icone" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 7H6.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1.3" fill="currentColor"/><circle cx="17" cy="19" r="1.3" fill="currentColor"/></svg>
+                        </span>
+                    </div>
+                    <strong class="estatistica-card__valor">24</strong>
+                </article>
+
+                <article class="estatistica-card">
+                    <div class="estatistica-card__topo">
+                        <span>Produtos cadastrados</span>
+                        <span class="estatistica-card__icone" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 21v-9m0 0 8-4.5M12 12 4 7.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                        </span>
+                    </div>
+                    <strong class="estatistica-card__valor">8</strong>
+                </article>
+
+                <article class="estatistica-card">
+                    <div class="estatistica-card__topo">
+                        <span>Vendas (mês)</span>
+                        <span class="estatistica-card__icone" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16M7 16V9m5 7V6m5 10v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        </span>
+                    </div>
+                    <strong class="estatistica-card__valor">R$ 4.320,00</strong>
+                </article>
+            </div>
+
+            <section class="dashboard__vendas" aria-labelledby="vendas-titulo">
+                <h2 id="vendas-titulo">Vendas da semana</h2>
+                <div class="grafico-vendas" id="grafico-vendas" role="img" aria-label="Gráfico de vendas da semana de quinta a quarta"></div>
+                <ul class="grafico-vendas__legenda" id="grafico-legenda" aria-hidden="true"></ul>
+            </section>
+        </section>
+    </main>
+</body>
+</html>
