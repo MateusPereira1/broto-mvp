@@ -1,12 +1,17 @@
+import { consultarEstoque } from "./estoque.js";
+
 const cartStorageKey = 'broto-cart';
 const orderStorageKey = 'broto-pedido-simulado';
 const cartDrawer = document.querySelector('.cart-drawer');
 const drawerItems = cartDrawer.querySelector('.cart-drawer__items');
 const drawerEmpty = cartDrawer.querySelector('.cart-drawer__empty');
 const drawerCheckout = cartDrawer.querySelector('.cart-drawer__checkout');
+const drawerMessage = cartDrawer.querySelector('.cart-drawer__message');
 const checkoutItems = document.querySelector('.cart-items');
 const checkoutForm = document.querySelector('.checkout__form');
 const checkoutMessage = document.querySelector('.checkout__message');
+const checkoutSubmit = checkoutForm?.querySelector('button[type="submit"]');
+const productMessage = document.querySelector('#product-cart-message');
 const checkoutEmpty = document.querySelector('.checkout__empty');
 const orderSummary = document.querySelector('.order-summary');
 const subtotalElement = document.querySelector('#checkout-subtotal');
@@ -16,6 +21,7 @@ const currencyFormatter = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
 });
+let checkingStock = false;
 
 function readCart() {
     const storedCart = localStorage.getItem(cartStorageKey);
@@ -94,15 +100,13 @@ function createCartItem(item, index, drawer = false) {
         drawer ? 'cart-drawer__quantity' : 'quantity'
     ));
 
-    if (drawer) {
-        const remove = document.createElement('button');
-        remove.className = 'cart-drawer__remove';
-        remove.type = 'button';
-        remove.dataset.cartRemove = String(index);
-        remove.setAttribute('aria-label', `Remover ${item.name} do carrinho`);
-        remove.textContent = '⌫';
-        article.append(remove);
-    }
+    const remove = document.createElement('button');
+    remove.className = 'cart-drawer__remove';
+    remove.type = 'button';
+    remove.dataset.cartRemove = String(index);
+    remove.setAttribute('aria-label', `Remover ${item.name} do carrinho`);
+    remove.textContent = '⌫';
+    article.append(remove);
 
     return article;
 }
@@ -136,29 +140,63 @@ function saveCart(cart) {
     renderCart();
 }
 
-function adjustQuantity(index, amount) {
-    const cart = readCart();
-    const item = cart[index];
+function showMessage(element, message = '') {
+    element.textContent = message;
+    element.hidden = !message;
+}
+
+function stockMessage(item, limit) {
+    return limit > 0
+        ? `Você pode comprar até ${limit} ${item.unit || 'un.'} de ${item.name}.`
+        : `${item.name} não está mais disponível. Retire o item do carrinho para continuar.`;
+}
+
+async function adjustQuantity(button) {
+    let cart = readCart();
+    let item = cart[Number(button.dataset.cartIndex)];
     if (!item) {
         return;
+    }
+    const amount = Number(button.dataset.cartChange);
+    const message = button.closest('.cart-drawer') ? drawerMessage : checkoutMessage;
+    showMessage(message);
+
+    if (amount > 0) {
+        const id = item.id;
+        checkingStock = true;
+        button.disabled = true;
+        try {
+            const stock = await consultarEstoque();
+            cart = readCart();
+            item = cart.find((product) => product.id === id);
+            const limit = stock.get(id) ?? 0;
+            if (!item || item.quantity + 1 > limit) {
+                showMessage(message, item ? stockMessage(item, limit) : '');
+                return;
+            }
+        } catch {
+            showMessage(message, 'Não foi possível conferir o estoque. Tente novamente.');
+            return;
+        } finally {
+            checkingStock = false;
+            button.disabled = false;
+        }
     }
 
     item.quantity = Math.max(1, item.quantity + amount);
     saveCart(cart);
+    showMessage(message);
 }
 
 document.addEventListener('click', (event) => {
     const target = event.target;
-    if (!(target instanceof Element)) {
+    if (!(target instanceof Element) || checkingStock) {
         return;
     }
 
     const quantityButton = target.closest('[data-cart-change]');
     if (quantityButton) {
-        adjustQuantity(
-            Number(quantityButton.dataset.cartIndex),
-            Number(quantityButton.dataset.cartChange)
-        );
+        adjustQuantity(quantityButton);
         return;
     }
 
@@ -167,11 +205,15 @@ document.addEventListener('click', (event) => {
         const cart = readCart();
         cart.splice(Number(removeButton.dataset.cartRemove), 1);
         saveCart(cart);
+        showMessage(drawerMessage);
+        if (checkoutMessage) {
+            showMessage(checkoutMessage);
+        }
         return;
     }
 
     const addButton = target.closest('[data-add-to-cart]');
-    if (!addButton) {
+    if (!addButton || addButton.disabled) {
         return;
     }
 
@@ -199,6 +241,12 @@ document.addEventListener('click', (event) => {
     };
     const cart = readCart();
     const existingItem = cart.find((item) => item.id === product.id);
+    const limit = Number(addButton.dataset.stockLimit);
+    if ((existingItem?.quantity ?? 0) + 1 > limit) {
+        showMessage(productMessage, stockMessage(product, limit));
+        return;
+    }
+    showMessage(productMessage);
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
@@ -214,12 +262,38 @@ document.addEventListener('click', (event) => {
 });
 
 if (checkoutForm) {
-    checkoutForm.addEventListener('submit', (event) => {
+    checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+        if (checkingStock) {
+            return;
+        }
         const cart = readCart();
         if (!cart.length) {
             renderCart();
             return;
+        }
+
+        checkingStock = true;
+        checkoutSubmit.disabled = true;
+        showMessage(checkoutMessage);
+        try {
+            const stock = await consultarEstoque();
+            if (JSON.stringify(cart) !== JSON.stringify(readCart())) {
+                renderCart();
+                showMessage(checkoutMessage, 'O carrinho mudou. Confira os itens e tente novamente.');
+                return;
+            }
+            const unavailable = cart.filter((item) => item.quantity > (stock.get(item.id) ?? 0));
+            if (unavailable.length) {
+                showMessage(checkoutMessage, unavailable.map((item) => stockMessage(item, stock.get(item.id) ?? 0)).join(' '));
+                return;
+            }
+        } catch {
+            showMessage(checkoutMessage, 'Não foi possível conferir o estoque. Seu carrinho foi preservado.');
+            return;
+        } finally {
+            checkingStock = false;
+            checkoutSubmit.disabled = false;
         }
 
         const order = {
@@ -231,8 +305,7 @@ if (checkoutForm) {
             sessionStorage.setItem(orderStorageKey, JSON.stringify(order));
             localStorage.removeItem(cartStorageKey);
         } catch {
-            checkoutMessage.textContent = 'Não foi possível concluir o pedido simulado nesta aba.';
-            checkoutMessage.hidden = false;
+            showMessage(checkoutMessage, 'Não foi possível concluir o pedido simulado nesta aba.');
             return;
         }
         window.location.href = './confirmacao-pedido.html';
@@ -244,6 +317,12 @@ if (checkoutForm) {
         }
     });
 }
+
+window.addEventListener('storage', (event) => {
+    if (event.key === cartStorageKey || event.key === null) {
+        renderCart();
+    }
+});
 
 const orderConfirmation = document.querySelector('.pedido-confirmado');
 if (orderConfirmation) {

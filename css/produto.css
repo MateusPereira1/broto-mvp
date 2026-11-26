@@ -37,6 +37,11 @@
     outline-offset: 3px;
 }
 
+.product-detail__actions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
 .product-detail__info {
     min-width: 0;
 }

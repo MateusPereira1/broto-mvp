@@ -1,4 +1,5 @@
 import { COLECAO_PRODUTOS, listarRegistro } from "./api.js";
+import { limiteEstoque } from "./estoque.js";
 import {
     criarCardProduto,
     formatarPrecoProduto,
@@ -21,6 +22,7 @@ function preencherDetalhes(produto) {
     const unidade = produto.unidade || "";
     const preco = formatarPrecoProduto(produto);
     const imagem = detalhe.querySelector("#product-main-image");
+    const limite = limiteEstoque(produto);
 
     document.title = "Broto - " + nome;
     detalhe.querySelector("#product-name").textContent = nome;
@@ -36,7 +38,12 @@ function preencherDetalhes(produto) {
     imagem.alt = produto.imagem ? nome : "";
     detalhe.querySelectorAll(".product-detail__actions button").forEach((botao) => {
         botao.dataset.addToCart = String(produto.id);
+        botao.dataset.stockLimit = String(limite);
+        botao.disabled = limite === 0;
     });
+    if (limite === 0) {
+        detalhe.querySelector("#product-cart-message").textContent = "Produto indisponível para compra.";
+    }
     mensagem.hidden = true;
     detalhe.hidden = false;
 }

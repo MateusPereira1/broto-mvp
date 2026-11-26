@@ -30,6 +30,7 @@ class BrotoHeader extends HTMLElement {
                     </header>
                     <div class="cart-drawer__content">
                         <p class="cart-drawer__empty">Seu carrinho está vazio.</p>
+                        <p class="cart-drawer__message" role="status" hidden></p>
                         <div class="cart-drawer__items" aria-label="Produtos no carrinho"></div>
                         <a class="cart-drawer__checkout" href="./finalizar-compra.html">Finalizar compra</a>
                     </div>

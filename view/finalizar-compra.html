@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/carrinho.css">
     <script src="../controller/header.js" defer></script>
-    <script src="../controller/carrinho.js" defer></script>
+    <script type="module" src="../controller/carrinho.js"></script>
 </head>
 <body>
     <broto-header></broto-header>
@@ -20,6 +20,7 @@
             <p>Confira seu pedido antes de pagar</p>
         </header>
 
+        <p class="checkout__message" role="status" hidden></p>
         <section class="cart-items" aria-label="Produtos no carrinho"></section>
         <p class="checkout__empty" hidden>Seu carrinho está vazio. Volte ao marketplace para adicionar produtos.</p>
 
@@ -75,7 +76,6 @@
                 <a class="checkout__back" href="./marketplace.html">Voltar ao marketplace</a>
                 <button class="checkout__submit" type="submit">Finalizar compra</button>
             </div>
-            <p class="checkout__message" role="status" hidden></p>
         </form>
     </main>
 </body>
