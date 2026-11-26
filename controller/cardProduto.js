@@ -16,6 +16,7 @@ export function criarCardProduto(modelo, produto) {
 
     card.dataset.search = (nome + " " + local).toLocaleLowerCase("pt-BR");
     card.querySelector(".product-card__name").textContent = nome;
+    card.querySelector(".product-excess-badge").hidden = produto.excedente !== true;
     card.querySelector(".product-card__location").textContent = local;
     const unidade = produto.unidade ? "/" + produto.unidade : "";
     card.querySelector(".product-card__price").textContent = formatarPrecoProduto(produto) + unidade;

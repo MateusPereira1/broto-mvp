@@ -26,6 +26,7 @@ function preencherDetalhes(produto) {
 
     document.title = "Broto - " + nome;
     detalhe.querySelector("#product-name").textContent = nome;
+    detalhe.querySelector(".product-excess-badge").hidden = produto.excedente !== true;
     detalhe.querySelector(".product-detail__location").textContent = produto.local || "";
     detalhe.querySelector(".product-detail__price").textContent = preco;
     detalhe.querySelector(".product-detail__unit-price").textContent = unidade ? preco + "/" + unidade : "";
