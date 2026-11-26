@@ -7,7 +7,7 @@ export function limiteEstoque(produto) {
         : 0;
 }
 
-export async function consultarEstoque() {
+export async function consultarEstoqueEPrecos() {
     const resposta = await listarRegistro(COLECAO_PRODUTOS);
     const produtos = Array.isArray(resposta) ? resposta : resposta?.dados;
     if (!Array.isArray(produtos)) {
@@ -15,5 +15,15 @@ export async function consultarEstoque() {
     }
 
     return new Map(produtos.filter((produto) => produto?.id != null)
-        .map((produto) => [String(produto.id), limiteEstoque(produto)]));
+        .map((produto) => {
+            const { preco } = produto;
+            const valor = typeof preco === "string" && preco.trim() ? Number(preco) : preco;
+            const centavos = Math.round(valor * 100);
+            return [String(produto.id), {
+                limite: limiteEstoque(produto),
+                precoCentavos: Number.isFinite(valor) && valor >= 0 && Number.isSafeInteger(centavos)
+                    ? centavos
+                    : null,
+            }];
+        }));
 }

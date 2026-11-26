@@ -1,5 +1,5 @@
 import { COLECAO_PEDIDOS, criarRegistro } from "./api.js";
-import { consultarEstoque } from "./estoque.js";
+import { consultarEstoqueEPrecos } from "./estoque.js";
 
 const cartStorageKey = 'broto-cart';
 const orderStorageKey = 'broto-ultimo-pedido';
@@ -167,10 +167,10 @@ async function adjustQuantity(button) {
         cartOperationPending = true;
         button.disabled = true;
         try {
-            const stock = await consultarEstoque();
+            const ofertas = await consultarEstoqueEPrecos();
             cart = readCart();
             item = cart.find((product) => product.id === id);
-            const limit = stock.get(id) ?? 0;
+            const limit = ofertas.get(id)?.limite ?? 0;
             if (!item || item.quantity + 1 > limit) {
                 showMessage(message, item ? stockMessage(item, limit) : '');
                 return;
@@ -284,11 +284,11 @@ if (checkoutForm) {
         checkoutSubmit.disabled = true;
         showMessage(checkoutMessage);
         try {
-            let stock;
+            let ofertas;
             try {
-                stock = await consultarEstoque();
+                ofertas = await consultarEstoqueEPrecos();
             } catch {
-                showMessage(checkoutMessage, 'Não foi possível conferir o estoque. Seu carrinho foi preservado.');
+                showMessage(checkoutMessage, 'Não foi possível conferir o estoque e os preços. Seu carrinho foi preservado.');
                 return;
             }
             if (cartSnapshot !== JSON.stringify(readCart())) {
@@ -296,9 +296,25 @@ if (checkoutForm) {
                 showMessage(checkoutMessage, 'O carrinho mudou. Confira os itens e tente novamente.');
                 return;
             }
-            const unavailable = cart.filter((item) => item.quantity > (stock.get(item.id) ?? 0));
+            const unavailable = cart.filter((item) => item.quantity > (ofertas.get(item.id)?.limite ?? 0));
             if (unavailable.length) {
-                showMessage(checkoutMessage, unavailable.map((item) => stockMessage(item, stock.get(item.id) ?? 0)).join(' '));
+                showMessage(checkoutMessage, unavailable.map((item) => stockMessage(item, ofertas.get(item.id)?.limite ?? 0)).join(' '));
+                return;
+            }
+
+            const invalidPrice = cart.find((item) => ofertas.get(item.id).precoCentavos === null);
+            if (invalidPrice) {
+                showMessage(checkoutMessage, `O preço de ${invalidPrice.name} está indisponível. Tente novamente mais tarde ou retire o item do carrinho.`);
+                return;
+            }
+
+            const changedPrices = cart.filter((item) => item.priceCents !== ofertas.get(item.id).precoCentavos);
+            if (changedPrices.length) {
+                for (const item of changedPrices) {
+                    item.priceCents = ofertas.get(item.id).precoCentavos;
+                }
+                saveCart(cart);
+                showMessage(checkoutMessage, 'O preço de um ou mais produtos mudou. Confira o novo total antes de finalizar.');
                 return;
             }
 

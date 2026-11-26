@@ -32,7 +32,7 @@ export async function excluirProduto(id) {
 
 export async function listarRegistro(colecao) {
   try {
-    const resposta = await fetch(montarUrl(colecao));
+    const resposta = await fetch(montarUrl(colecao), { cache: "no-store" });
 
     if (!resposta.ok) {
       throw new Error("Falha em listar os registros: " + resposta.status);
