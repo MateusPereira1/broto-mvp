@@ -16,14 +16,20 @@
     <broto-header></broto-header>
 
     <main class="marketplace">
-        <form class="marketplace__search" role="search">
-            <label class="sr-only" for="busca-produtos">Buscar produto ou produtor</label>
-            <svg class="marketplace__search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                <circle cx="10.8" cy="10.8" r="7.2" stroke="currentColor" stroke-width="1.7"></circle>
-                <path d="m16.2 16.2 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
-            </svg>
-            <input id="busca-produtos" type="search" placeholder="Buscar produto " autocomplete="off">
-        </form>
+        <div class="marketplace__filters">
+            <form class="marketplace__search" role="search">
+                <label class="sr-only" for="busca-produtos">Buscar por produto ou localização</label>
+                <svg class="marketplace__search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                    <circle cx="10.8" cy="10.8" r="7.2" stroke="currentColor" stroke-width="1.7"></circle>
+                    <path d="m16.2 16.2 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+                </svg>
+                <input id="busca-produtos" type="search" placeholder="Buscar por produto ou localização" autocomplete="off">
+            </form>
+            <label class="marketplace__excess-filter">
+                <input id="filtro-excedentes" type="checkbox">
+                Só excedentes
+            </label>
+        </div>
 
         <section class="products" aria-label="Produtos disponíveis">
             <article class="product-card" data-search="melancia cidade do produtor">

@@ -8,6 +8,11 @@ body {
     padding: 53px 24px 48px;
 }
 
+.marketplace__filters {
+    margin: 0 auto 56px;
+    max-width: 536px;
+}
+
 .marketplace__search {
     align-items: center;
     background: var(--verde-principal);
@@ -16,10 +21,22 @@ body {
     color: var(--branco);
     display: flex;
     height: 53px;
-    margin: 0 auto 80px;
-    max-width: 536px;
     padding: 0 22px;
     width: 100%;
+}
+
+.marketplace__excess-filter {
+    align-items: center;
+    cursor: pointer;
+    display: inline-flex;
+    font-weight: 600;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.marketplace__excess-filter input {
+    accent-color: #096344;
+    margin: 0;
 }
 
 .marketplace__search:focus-within {
@@ -217,9 +234,6 @@ body {
         grid-template-columns: repeat(2, minmax(0, 250px));
     }
 
-    .marketplace__search {
-        margin-bottom: 56px;
-    }
 }
 
 @media (max-width: 600px) {
@@ -240,7 +254,7 @@ body {
         font-size: 19px;
     }
 
-    .marketplace__search {
+    .marketplace__filters {
         margin-bottom: 36px;
     }
 }

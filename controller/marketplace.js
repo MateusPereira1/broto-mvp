@@ -1,60 +1,54 @@
 import { COLECAO_PRODUTOS, listarRegistro } from "./api.js";
-
 import { criarCardProduto, produtoDisponivel } from "./cardProduto.js";
 
 const secaoProdutos = document.querySelector(".products");
+const modeloCard = secaoProdutos.querySelector(".product-card").cloneNode(true);
+const busca = document.querySelector("#busca-produtos");
+const filtroExcedentes = document.querySelector("#filtro-excedentes");
+const mensagemVazia = document.querySelector(".marketplace__empty");
+let cards;
 
-const exemploCard = secaoProdutos.querySelector(".product-card");
-const modelCard = exemploCard.cloneNode(true);
 secaoProdutos.replaceChildren();
 
-async function carregarProduto() {
+function aplicarFiltros() {
+    if (!cards) {
+        return;
+    }
+
+    const termo = busca.value.trim().toLocaleLowerCase("pt-BR");
+    let temResultados = false;
+    for (const { card, excedente } of cards) {
+        const corresponde = card.dataset.search.includes(termo)
+            && (!filtroExcedentes.checked || excedente);
+        card.hidden = !corresponde;
+        temResultados ||= corresponde;
+    }
+
+    mensagemVazia.hidden = temResultados;
+}
+
+async function carregarProdutos() {
     try {
         const resposta = await listarRegistro(COLECAO_PRODUTOS);
-
-        let listaProdutos = resposta;
-        if (!Array.isArray(resposta)) {
-            listaProdutos = resposta.dados || [];
-        }
-        listaProdutos = listaProdutos.filter(produtoDisponivel);
-
-        secaoProdutos.innerHTML = "";
-        for (let i = 0; i < listaProdutos.length; i++) {
-            const card = criarCardProduto(modelCard, listaProdutos[i]);
-            secaoProdutos.appendChild(card);
-        }
-
-        const mensagemVazia = document.querySelector('.marketplace__empty');
-        mensagemVazia.hidden = listaProdutos.length > 0;
-
-    } catch(erro) {
+        const registros = Array.isArray(resposta) ? resposta : resposta.dados || [];
+        cards = registros.filter(produtoDisponivel).map((produto) => ({
+            card: criarCardProduto(modeloCard, produto),
+            excedente: produto.excedente === true,
+        }));
+        secaoProdutos.replaceChildren(...cards.map(({ card }) => card));
+        aplicarFiltros();
+    } catch (erro) {
         console.error("Produtos não foram carregados:", erro);
-        secaoProdutos.replaceChildren();
-        const mensagem = document.querySelector("#marketplace-status");
-        mensagem.textContent = "Não foi possível carregar os produtos. Recarregue a página para tentar novamente.";
+        document.querySelector("#marketplace-status").textContent =
+            "Não foi possível carregar os produtos. Recarregue a página para tentar novamente.";
     }
 }
 
-await carregarProduto();
-
-
-const searchInput = document.querySelector('#busca-produtos');
-const productCards = [...document.querySelectorAll('.product-card')];
-const emptyMessage = document.querySelector('.marketplace__empty');
-
-document.querySelector('.marketplace__search').addEventListener('submit', (event) => {
-    event.preventDefault();
+document.querySelector(".marketplace__search").addEventListener("submit", (evento) => {
+    evento.preventDefault();
 });
+busca.addEventListener("input", aplicarFiltros);
+filtroExcedentes.addEventListener("change", aplicarFiltros);
+window.addEventListener("pageshow", aplicarFiltros);
 
-searchInput.addEventListener('input', () => {
-    const searchTerm = searchInput.value.trim().toLocaleLowerCase('pt-BR');
-    let visibleProducts = 0;
-
-    productCards.forEach((card) => {
-        const matches = card.dataset.search.includes(searchTerm);
-        card.hidden = !matches;
-        visibleProducts += Number(matches);
-    });
-
-    emptyMessage.hidden = visibleProducts > 0;
-});
+carregarProdutos();
