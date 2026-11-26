@@ -5,6 +5,7 @@ const mensagemLocal = document.getElementById("mensagem-local");
 const campoFoto = document.getElementById("foto-residencia");
 const nomeFoto = document.getElementById("nome-foto");
 const botaoFinalizar = document.getElementById("finalizar-localizacao");
+const paginaProdutor = new URL("../view/meus-produtos.html", import.meta.url);
 
 formularioRegistro?.addEventListener("submit", function (evento) {
     evento.preventDefault();
@@ -19,7 +20,7 @@ formularioRegistro?.addEventListener("submit", function (evento) {
 
 formularioEndereco?.addEventListener("submit", function (evento) {
     evento.preventDefault();
-    window.location.href = new URL("../view/marketplace.html", import.meta.url);
+    window.location.href = paginaProdutor;
 });
 
 botaoLocal?.addEventListener("click", function () {
@@ -44,5 +45,5 @@ campoFoto?.addEventListener("change", function () {
 });
 
 botaoFinalizar?.addEventListener("click", function () {
-    window.location.href = new URL("../view/marketplace.html", import.meta.url);
+    window.location.href = paginaProdutor;
 });
