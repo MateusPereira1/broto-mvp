@@ -37,18 +37,17 @@
                 <section class="acompanhamento-card" aria-labelledby="status-titulo">
                     <h2 id="status-titulo" class="sr-only">Status do pedido</h2>
                     <ol class="pedido-status">
-                        <li class="pedido-status__item pedido-status__item--concluido">
+                        <li class="pedido-status__item pedido-status__item--concluido" aria-current="step">
                             <span class="pedido-status__marcador" aria-hidden="true">✓</span>
                             <div>
                                 <strong>Pedido realizado</strong>
                                 <p id="status-realizado"></p>
                             </div>
                         </li>
-                        <li class="pedido-status__item pedido-status__item--atual">
+                        <li class="pedido-status__item">
                             <span class="pedido-status__marcador" aria-hidden="true"></span>
                             <div>
                                 <strong>Em preparação</strong>
-                                <p>Seu pedido está sendo preparado pelo vendedor.</p>
                             </div>
                         </li>
                         <li class="pedido-status__item">
