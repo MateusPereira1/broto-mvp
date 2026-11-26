@@ -29,12 +29,7 @@
                 <p id="subtitulo-login">Que bom te ver aqui!</p>
 
                 <form id="form-login" novalidate>
-                    <fieldset class="login-perfil">
-                        <legend>Entrar como</legend>
-                        <label><input type="radio" name="perfil" value="comprador" checked> Comprador</label>
-                        <label><input type="radio" name="perfil" value="produtor"> Produtor</label>
-                    </fieldset>
-
+                
                     <label class="sr-only" for="email">Email</label>
                     <input
                         id="email"
@@ -52,6 +47,18 @@
                         placeholder="Senha"
                         autocomplete="current-password"
                     >
+
+                    <fieldset class="login-perfil">
+                        <legend class="sr-only">Entrar como</legend>
+                        <label>
+                            <input type="radio" name="perfil" value="comprador" checked>
+                            <span>COMPRADOR</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="perfil" value="vendedor">
+                            <span>VENDEDOR</span>
+                        </label>
+                    </fieldset>
 
                     <a class="login-cadastro" href="./view/registro.html">NÃO TENHO CONTA CRIADA</a>
                     <button id="botao-entrar" type="submit">ENTRAR</button>
