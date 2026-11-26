@@ -3,9 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Veja os produtores perto de você no mapa do Broto.">
     <title>Broto - Mapa de Produtores</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/mapa.css">
+    <script src="../controller/header.js" defer></script>
+    <script src="../controller/carrinho.js" defer></script>
+    <script src="../controller/mapa.js" defer></script>
 </head>
 <body>
-    <h1>Mapa de Produtores</h1>
+    <broto-header></broto-header>
+
+    <main class="mapa-pagina">
+        <header class="mapa-pagina__cabecalho">
+            <h1>Mapa</h1>
+            <p>Veja os produtores perto de você</p>
+        </header>
+
+        <section class="mapa-painel" aria-label="Mapa de produtores">
+            <div class="mapa-painel__mapa" id="mapa-area">
+                <iframe
+                    class="mapa-painel__embed"
+                    title="Mapa real da região"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=-47.55%2C-23.56%2C-47.35%2C-23.44&amp;layer=mapnik"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                ></iframe>
+                <div class="mapa-painel__marcadores" id="mapa-marcadores" aria-label="Produtores no mapa"></div>
+            </div>
+
+            <aside class="mapa-painel__detalhes" id="mapa-detalhes" aria-live="polite">
+                <p class="mapa-painel__instrucao" id="mapa-instrucao">Selecione um ponto no mapa para ver o produtor.</p>
+                <article class="produtor-card" id="produtor-card" hidden>
+                    <img class="produtor-card__imagem" id="produtor-imagem" src="" alt="">
+                    <div class="produtor-card__info">
+                        <h2 id="produtor-nome"></h2>
+                        <p id="produtor-cidade"></p>
+                        <p class="produtor-card__tipo" id="produtor-tipo"></p>
+                    </div>
+                    <a class="produtor-card__acao" id="produtor-link" href="./marketplace.html">VER PRODUTOS</a>
+                </article>
+            </aside>
+        </section>
+    </main>
 </body>
 </html>
