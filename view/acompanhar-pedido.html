@@ -6,6 +6,7 @@
     <title>Broto - Acompanhar pedido</title>
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/produtor.css">
     <link rel="stylesheet" href="../css/pedido.css">
     <script src="../controller/header.js" defer></script>
 </head>
@@ -13,6 +14,7 @@
     <broto-header></broto-header>
     <main class="pedido pedido--acompanhamento">
         <header class="acompanhamento-cabecalho">
+            <a class="produtos-voltar acompanhamento-voltar" href="./meus-pedidos.html"><span class="produtos-voltar__seta" aria-hidden="true">←</span> Voltar para Meus pedidos</a>
             <h1>Acompanhar pedido</h1>
             <p>Acompanhe o status e as informações de entrega do seu pedido.</p>
         </header>
@@ -107,6 +109,8 @@
     <script type="module">
         import { associarVendedores, etapaDoVendedor, etapas, listarPedidos, listarStatus } from "../controller/pedidos.js";
 
+        import { buscarPedido } from "../controller/historicoPedidos.js";
+
         async function atualizarStatus(pedidoId) {
             const mensagem = document.querySelector('#status-atualizacao');
             if (pedidoId == null) {
@@ -161,26 +165,21 @@
         }
 
         (function () {
-            const orderStorageKey = 'broto-ultimo-pedido';
             const currencyFormatter = new Intl.NumberFormat('pt-BR', {
                 style: 'currency',
                 currency: 'BRL'
             });
             const content = document.querySelector('.acompanhamento-conteudo');
             const emptyState = document.querySelector('.pedido-ausente');
-            let order;
-            try {
-                order = JSON.parse(sessionStorage.getItem(orderStorageKey) ?? sessionStorage.getItem('broto-pedido-simulado'));
-            } catch {
-                order = null;
-            }
+            const id = new URLSearchParams(window.location.search).get('id');
+            const order = buscarPedido(id);
 
             const date = new Date(order?.createdAt);
-            if (Number.isInteger(order?.number) && Number.isInteger(order?.totalCents) && Number.isFinite(date.getTime())) {
+            if (order) {
                 document.querySelector('#pedido-numero').textContent = `Pedido nº ${order.number}`;
                 document.querySelector('#pedido-data').textContent = `Realizado em ${date.toLocaleDateString('pt-BR')}`;
                 document.querySelector('#pedido-total').textContent = currencyFormatter.format(order.totalCents / 100);
-                document.querySelector('#pedido-endereco').textContent = order.deliveryAddress || 'Endereço indisponível nesta aba.';
+                document.querySelector('#pedido-endereco').textContent = order.deliveryAddress || 'Endereço indisponível para este pedido.';
                 const realizado = document.querySelector('#status-realizado');
                 realizado.textContent = `${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
                 content.hidden = false;

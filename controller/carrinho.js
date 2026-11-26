@@ -1,8 +1,8 @@
 import { COLECAO_PEDIDOS, criarRegistro } from "./api.js";
 import { consultarEstoqueEPrecos } from "./estoque.js";
+import { chaveUltimoPedido, guardarPedido } from "./historicoPedidos.js";
 
 const cartStorageKey = 'broto-cart';
-const orderStorageKey = 'broto-ultimo-pedido';
 const cartDrawer = document.querySelector('.cart-drawer');
 const drawerItems = cartDrawer.querySelector('.cart-drawer__items');
 const drawerEmpty = cartDrawer.querySelector('.cart-drawer__empty');
@@ -344,17 +344,22 @@ if (checkoutForm) {
             }
 
             const summary = {
-                id: savedOrder?.id,
+                id: (savedOrder?.dados ?? savedOrder)?.id,
                 number: order.number,
-                createdAt: savedOrder?.createdAt,
+                createdAt: (savedOrder?.dados ?? savedOrder)?.createdAt ?? new Date().toISOString(),
                 totalCents: order.totalCents,
                 deliveryAddress,
             };
             try {
+                guardarPedido(summary);
+            } catch (erro) {
+                console.error('Não foi possível salvar o pedido no histórico local:', erro);
+            }
+            try {
                 if (cartSnapshot === JSON.stringify(readCart())) {
                     localStorage.removeItem(cartStorageKey);
                 }
-                sessionStorage.setItem(orderStorageKey, JSON.stringify(summary));
+                sessionStorage.setItem(chaveUltimoPedido, JSON.stringify(summary));
             } catch {
                 renderCart();
                 showMessage(checkoutMessage, `Pedido nº ${order.number} registrado. O resumo não pôde ser aberto nesta aba.`);
@@ -384,7 +389,7 @@ const orderConfirmation = document.querySelector('.pedido-confirmado');
 if (orderConfirmation) {
     let order;
     try {
-        order = JSON.parse(sessionStorage.getItem(orderStorageKey) ?? sessionStorage.getItem('broto-pedido-simulado'));
+        order = JSON.parse(sessionStorage.getItem(chaveUltimoPedido) ?? sessionStorage.getItem('broto-pedido-simulado'));
     } catch {
         // Exibe a opção de voltar ao marketplace quando o resumo está indisponível.
     }

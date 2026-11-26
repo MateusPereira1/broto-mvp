@@ -25,13 +25,38 @@ body {
     width: 100%;
 }
 
-.marketplace__excess-filter {
+.marketplace__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.marketplace__action {
     align-items: center;
+    background: var(--branco);
+    border: 1px solid #078653;
+    border-radius: 2rem;
+    color: #096344;
     cursor: pointer;
     display: inline-flex;
     font-weight: 600;
     gap: 0.5rem;
-    margin-top: 1rem;
+    min-height: 2.75rem;
+    padding: 0.4rem 1rem;
+    text-decoration: none;
+}
+
+.marketplace__action:hover,
+.marketplace__excess-filter:has(input:checked) {
+    background: #e7faf2;
+}
+
+.marketplace__action:focus-visible,
+.marketplace__excess-filter:has(input:focus-visible) {
+    outline: 2px solid #096344;
+    outline-offset: 3px;
 }
 
 .marketplace__excess-filter input {

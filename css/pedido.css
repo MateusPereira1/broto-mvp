@@ -116,6 +116,10 @@
     margin: 0;
 }
 
+.acompanhamento-voltar {
+    margin-bottom: 1.25rem;
+}
+
 .acompanhamento-cabecalho p {
     margin: 0.35rem 0 0;
     color: #555;
@@ -313,4 +317,57 @@
     color: var(--texto-escuro);
     font: inherit;
     cursor: pointer;
+}
+
+.historico-pedidos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: 1rem;
+}
+
+.historico-pedido {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0;
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.historico-pedido h2,
+.historico-vazio h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.historico-pedido .pedido-resumo__total {
+    margin-top: auto;
+    align-items: baseline;
+}
+
+.historico-pedido-rodape {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.historico-pedido-rodape .pedido-recebido-status {
+    justify-self: start;
+    border-radius: 2rem;
+    padding: 0.3rem 0.75rem;
+    background: #dcfaed;
+    color: #096344;
+    font-size: 0.875rem;
+}
+
+.historico-pedido-rodape .pedido-acoes {
+    width: 100%;
+}
+
+.historico-vazio {
+    max-width: 34rem;
+    padding: clamp(1.25rem, 5vw, 2.5rem);
+    text-align: center;
+}
+
+.historico-vazio .pedido-resumo__icone {
+    margin: 0 auto 0.75rem;
 }
