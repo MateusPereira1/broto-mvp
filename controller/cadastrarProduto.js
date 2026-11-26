@@ -70,18 +70,23 @@ formulario.addEventListener("submit", async (evento) => {
         return;
     }
 
-    const campoLocal = formulario.elements.local;
-    const local = campoLocal.value.trim();
-    if (!local) {
-        campoLocal.setCustomValidity("Informe a localização do produto.");
-        campoLocal.reportValidity();
-        campoLocal.setCustomValidity("");
-        return;
+    const { produtor, local } = formulario.elements;
+    for (const [campo, mensagem] of [
+        [produtor, "Informe o nome do produtor."],
+        [local, "Informe a localização do produto."],
+    ]) {
+        if (!campo.value.trim()) {
+            campo.setCustomValidity(mensagem);
+            campo.reportValidity();
+            campo.setCustomValidity("");
+            return;
+        }
     }
 
     const cadastro = {
         ...produto,
-        local,
+        produtor: produtor.value.trim(),
+        local: local.value.trim(),
         descricao: formulario.elements.descricao.value.trim(),
         ativo: true,
     };

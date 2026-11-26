@@ -14,7 +14,7 @@ export function criarCardProduto(modelo, produto) {
     const local = produto.local || "";
     const link = "./produto.html?" + new URLSearchParams({ id: produto.id });
 
-    card.dataset.search = (nome + " " + local).toLocaleLowerCase("pt-BR");
+    card.dataset.search = [nome, local, produto.produtor].join(" ").toLocaleLowerCase("pt-BR");
     card.querySelector(".product-card__name").textContent = nome;
     card.querySelector(".product-excess-badge").hidden = produto.excedente !== true;
     card.querySelector(".product-card__location").textContent = local;
