@@ -32,15 +32,14 @@ com retirada ou entrega combinada.
 
 ## 🚀 Funcionalidades do MVP
 
-- [ ] Cadastro de ofertas (POST na API da Seed)
-- [ ] Catálogo listando ofertas (GET na API da Seed)
-- [ ] Filtros por produto, localização e excedente (JavaScript no navegador)
-- [ ] Registro de pedidos com cálculo automático do total
-- [ ] Selo visual de excedente
-- [ ] Layout responsivo
-- [x] Publicado no GitHub Pages
+- Cadastro de ofertas (POST na API da Seed)
+- Catálogo listando ofertas (GET na API da Seed)
+- Filtros por produto, localização e excedente (JavaScript no navegador)
+- Registro de pedidos com cálculo automático do total
+- Selo visual de excedente
+- Layout responsivo
+- Publicado no GitHub Pages
 
-> Marque os itens conforme forem concluídos.
 
 ## Cadastro de produtos com imagens
 
