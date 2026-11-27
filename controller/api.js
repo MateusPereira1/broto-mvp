@@ -84,3 +84,33 @@ export async function criarProdutoComImagens(formData) {
   }
   return resultado;
 }
+
+export async function verificarProdutoCadastrado(requestId) {
+  let ultimaFalha;
+  for (let tentativa = 0; tentativa < 4; tentativa += 1) {
+    try {
+      const resposta = await listarRegistro(COLECAO_PRODUTOS);
+      ultimaFalha = undefined;
+      const produtos = Array.isArray(resposta) ? resposta : resposta?.dados;
+      if (!Array.isArray(produtos)) {
+        throw new Error("A API retornou uma lista de produtos inválida.");
+      }
+      if (produtos.some((produto) => produto.requestId === requestId)) {
+        return true;
+      }
+    } catch (falha) {
+      if (!(falha instanceof TypeError)) {
+        throw falha;
+      }
+      ultimaFalha = falha;
+    }
+
+    if (tentativa < 3) {
+      await new Promise((resolver) => setTimeout(resolver, 750));
+    }
+  }
+  if (ultimaFalha) {
+    throw ultimaFalha;
+  }
+  return false;
+}

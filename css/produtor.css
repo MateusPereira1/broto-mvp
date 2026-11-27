@@ -180,7 +180,25 @@
     border-radius: 0.85rem;
 }
 
-#produto-dialogo::backdrop {
+#cadastro-produto-sucesso {
+    width: min(calc(100% - 2rem), 28rem);
+    max-height: calc(100% - 2rem);
+    padding: 1.5rem;
+    border: 1px solid #d4d4d4;
+    border-radius: 0.85rem;
+}
+
+#cadastro-produto-sucesso h2 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+#cadastro-produto-sucesso p {
+    margin: 0.75rem 0 1rem;
+}
+
+#produto-dialogo::backdrop,
+#cadastro-produto-sucesso::backdrop {
     background: #0007;
 }
 
@@ -224,6 +242,29 @@
 }
 
 .produto-dialogo-acoes [type="submit"] {
+    background: var(--verde-principal);
+}
+
+.cadastro-produto-sucesso__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.cadastro-produto-sucesso__acoes a,
+.cadastro-produto-sucesso__acoes button {
+    padding: 0.45rem 0.8rem;
+    border: 1px solid #078653;
+    border-radius: 0.4rem;
+    background: var(--branco);
+    color: #096344;
+    cursor: pointer;
+    font: inherit;
+    text-decoration: none;
+}
+
+.cadastro-produto-sucesso__acoes button {
     background: var(--verde-principal);
 }
 
@@ -275,7 +316,7 @@
 }
 
 .cadastro-produto__imagens {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
 }
 
 .cadastro-produto__venda {

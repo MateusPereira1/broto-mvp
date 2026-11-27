@@ -24,17 +24,10 @@
                 <div class="cadastro-produto__imagens">
                     <label class="cadastro-produto__foto">
                         <span class="cadastro-produto__foto-icone" aria-hidden="true">▧</span>
-                        <img id="foto-previa-1" alt="Prévia da primeira imagem" hidden>
-                        <strong>Adicionar primeira imagem</strong>
+                        <img id="foto-previa" alt="Prévia da imagem do produto" hidden>
+                        <strong>Adicionar imagem do produto</strong>
                         <small>JPG, PNG ou WEBP, até 32 MB.</small>
-                        <input class="sr-only" type="file" id="foto-produto-1" name="imagem1" accept="image/jpeg,image/png,image/webp">
-                    </label>
-                    <label class="cadastro-produto__foto">
-                        <span class="cadastro-produto__foto-icone" aria-hidden="true">▧</span>
-                        <img id="foto-previa-2" alt="Prévia da segunda imagem" hidden>
-                        <strong>Adicionar segunda imagem</strong>
-                        <small>Opcional · JPG, PNG ou WEBP, até 32 MB.</small>
-                        <input class="sr-only" type="file" id="foto-produto-2" name="imagem2" accept="image/jpeg,image/png,image/webp">
+                        <input class="sr-only" type="file" id="foto-produto" name="imagem1" accept="image/jpeg,image/png,image/webp">
                     </label>
                 </div>
                 <div class="cadastro-produto__identidade">
@@ -66,10 +59,10 @@
 
             <div class="cadastro-produto__venda">
                 <label>Preço (R$) *
-                    <input name="preco" type="number" min="0" step="0.01" placeholder="Ex.: 4,50" required>
+                    <input name="preco" type="text" inputmode="decimal" placeholder="Ex.: R$ 4,50" required>
                 </label>
                 <label>Quantidade disponível *
-                    <input name="estoque" type="number" min="0" step="any" placeholder="Ex.: 20" required>
+                    <input name="estoque" type="text" inputmode="decimal" pattern="-?[0-9]+([.][0-9]+)?" placeholder="Ex.: 20" required>
                 </label>
                 <label>Unidade de venda *
                     <select name="unidade" required>
@@ -91,11 +84,19 @@
             <p id="cadastro-produto-erro" role="alert" hidden></p>
             <p id="cadastro-produto-status" role="status"></p>
             <div class="cadastro-produto__acoes">
-                <a id="link-produtos" href="./meus-produtos.html" hidden>Ver meus produtos</a>
                 <a id="link-cancelar" href="./meus-produtos.html">Cancelar</a>
                 <button type="submit">Cadastrar produto</button>
             </div>
         </form>
+
+        <dialog id="cadastro-produto-sucesso" aria-labelledby="cadastro-produto-sucesso-titulo">
+            <h2 id="cadastro-produto-sucesso-titulo">Produto cadastrado!</h2>
+            <p>Seu produto foi publicado com sucesso.</p>
+            <div class="cadastro-produto-sucesso__acoes">
+                <button type="button" id="cadastro-produto-continuar">Cadastrar outro produto</button>
+                <a href="./meus-produtos.html">Ver meus produtos</a>
+            </div>
+        </dialog>
     </main>
 </body>
 </html>

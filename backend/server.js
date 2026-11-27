@@ -77,9 +77,13 @@ function validarProduto(body) {
     const preco = Number(precoInformado);
     const estoque = Number(estoqueInformado);
     const excedente = body.excedente;
+    const requestId = typeof body.requestId === "string" ? body.requestId.trim() : "";
 
     if (typeof body.categoria !== "string" || !["Fruta", "Verdura", "Legume"].includes(body.categoria)) {
         throw new HttpError(400, "Selecione uma categoria válida.");
+    }
+    if (requestId && !/^[\da-f]{8}-[\da-f]{4}-[1-8][\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/i.test(requestId)) {
+        throw new HttpError(400, "Identificador de cadastro inválido.");
     }
     if (!Number.isFinite(preco) || preco < 0 || !Number.isFinite(estoque) || estoque < 0) {
         throw new HttpError(400, "Preço e quantidade devem ser números válidos e não negativos.");
@@ -103,6 +107,7 @@ function validarProduto(body) {
         local,
         descricao: typeof body.descricao === "string" ? body.descricao.trim() : "",
         ativo: true,
+        ...(requestId ? { requestId } : {}),
     };
 }
 
