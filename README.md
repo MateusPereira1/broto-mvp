@@ -4,6 +4,8 @@ Plataforma que conecta pequenos produtores rurais a consumidores, permitindo
 publicar ofertas de frutas, verduras e legumes e fazer pedidos direto de quem
 planta. Com destaque para excedentes e redução de desperdício.
 
+[Acesse o Broto no GitHub Pages](https://mateuspereira1.github.io/broto-mvp/)
+
 ## 🎯 Problema
 
 Pequenos produtores perdem parte da colheita por falta de comprador na hora
@@ -36,7 +38,7 @@ com retirada ou entrega combinada.
 - [ ] Registro de pedidos com cálculo automático do total
 - [ ] Selo visual de excedente
 - [ ] Layout responsivo
-- [ ] Publicado no GitHub Pages
+- [x] Publicado no GitHub Pages
 
 > Marque os itens conforme forem concluídos.
 
