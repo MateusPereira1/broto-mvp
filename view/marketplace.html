@@ -61,55 +61,49 @@
         <p id="marketplace-status" role="status"></p>
     </main>
 
-    <footer class ="footer">
-        <div class="footer__colunas">
-            <section class="footer__coluna">
-                <h3>Institucional</h3>
-                <ul>
-                    <li><a href="./sobre-a-solucao.html">Sobre o Broto</a></li>
-                    <li><a href="#">Políticas de privacidade</a></li>
-                    <li><a href="#">Trocas e devoluções</a></li>
-                    <li><a href="#">Termos e condições</a></li>
-                </ul>
-            </section>
+    <footer class="footer">
+        <div class="footer__conteudo">
+            <div class="footer__marca">
+                <a class="footer__logo" href="./marketplace.html" aria-label="Broto - Marketplace">
+                    <img src="../images/Logo broto.svg" alt="">
+                    <span>broto</span>
+                </a>
+                <p>Produtos locais, direto de quem produz.</p>
+            </div>
 
-            <section class="footer__coluna">
-                <h3>Dúvidas</h3>
-                <ul>
-                    <li><a href="./sobre-a-solucao.html">Como funciona?</a></li>
-                    <li><a href="#">Perguntas frequentes</a></li>
-                </ul>
-            </section>
+            <nav class="footer__navegacao" aria-label="Links úteis">
+                <section class="footer__grupo" aria-labelledby="footer-explorar">
+                    <h2 id="footer-explorar">Explorar</h2>
+                    <ul>
+                        <li><a href="./marketplace.html">Marketplace</a></li>
+                        <li><a href="./mapa-produtores.html">Mapa de produtores</a></li>
+                        <li><a href="./sobre-a-solucao.html">Sobre a solução</a></li>
+                    </ul>
+                </section>
 
-            <section class="footer__coluna">
-                <h3>Produtores</h3>
-                <ul>
-                    <li><a href="#">Seja nosso fornecedor</a></li>
-                </ul>
-            </section>
+                <section class="footer__grupo" aria-labelledby="footer-compras">
+                    <h2 id="footer-compras">Compras</h2>
+                    <ul>
+                        <li><a href="./meus-pedidos.html">Meus pedidos</a></li>
+                        <li><a href="./acompanhar-pedido.html">Acompanhar pedido</a></li>
+                        <li><a href="./chat.html">Conversas</a></li>
+                    </ul>
+                </section>
 
-            <section class ="footer__coluna">
-                <h3>Atendimento</h3>
-                <ul>
-                    <li><a href="#">Email: contato@broto.com.br</a></li>
-                    <li><a href="#">WhatsApp: (81) 99900-0099</a></li>
-                </ul>
-            </section>
+                <section class="footer__grupo" aria-labelledby="footer-produtores">
+                    <h2 id="footer-produtores">Produtores</h2>
+                    <ul>
+                        <li><a href="./dashboard-produtor.html">Painel do produtor</a></li>
+                        <li><a href="./meus-produtos.html">Meus produtos</a></li>
+                    </ul>
+                </section>
+            </nav>
         </div>
 
-        <div class="footer__redes">
-            <h3>Nossas Redes</h3>
-            <ul>
-                <li><a href="#">Instagram</a></li>
-                <li><a href="#">LinkedIn</a></li>
-            </ul>
-        </div>
-
-        <div class="footer__legalidades">
+        <div class="footer__rodape">
             <p>&copy; <span id="footer-ano"></span> Broto</p>
-            <button id="btn-topo" type="button">Voltar ao topo</button>
         </div>
-    </footer>             
+    </footer>
 
     <script src="../controller/footer.js"></script>
 
