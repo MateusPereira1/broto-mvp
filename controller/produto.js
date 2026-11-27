@@ -27,6 +27,10 @@ function preencherDetalhes(produto) {
     document.title = "Broto - " + nome;
     detalhe.querySelector("#product-name").textContent = nome;
     detalhe.querySelector(".product-excess-badge").hidden = produto.excedente !== true;
+    const produtor = typeof produto.produtor === "string" ? produto.produtor.trim() : "";
+    const linhaProdutor = detalhe.querySelector(".product-detail__producer");
+    linhaProdutor.querySelector("span").textContent = produtor;
+    linhaProdutor.hidden = !produtor;
     detalhe.querySelector(".product-detail__location").textContent = produto.local || "";
     detalhe.querySelector(".product-detail__price").textContent = preco;
     detalhe.querySelector(".product-detail__unit-price").textContent = unidade ? preco + "/" + unidade : "";

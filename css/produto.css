@@ -46,6 +46,7 @@
     min-width: 0;
 }
 
+.product-detail__producer,
 .product-detail__location {
     color: #777;
     font-size: 17px;
@@ -161,6 +162,7 @@
         aspect-ratio: 1.55;
     }
 
+    .product-detail__producer,
     .product-detail__location {
         font-size: 15px;
     }
