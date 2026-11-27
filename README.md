@@ -62,21 +62,38 @@ publicada no frontend.
 
 ## 🔌 API
 
-Base: `https://psel-api.vercel.app/api/grupo-5/{colecao}`
+A aplicação usa a base `https://psel-api.vercel.app/api/MadrugaTech`.
 
-- `GET /api/grupo-5/ofertas` — lista as ofertas
-- `POST /api/grupo-5/ofertas` — cria uma oferta
-- `GET /api/grupo-5/pedidos` — lista os pedidos
-- `POST /api/grupo-5/pedidos` — cria um pedido
+| Método | Caminho | Operação |
+| --- | --- | --- |
+| GET | `/api/MadrugaTech/produtos` | Lista os produtos do catálogo |
+| POST | `/api/MadrugaTech/produtos` | Salva um produto enviado pelo backend do Broto |
+| PATCH | `/api/MadrugaTech/produtos/{id}` | Atualiza um produto |
+| DELETE | `/api/MadrugaTech/produtos/{id}` | Exclui um produto |
+| GET | `/api/MadrugaTech/pedidos` | Lista os pedidos |
+| POST | `/api/MadrugaTech/pedidos` | Registra um pedido |
+| GET | `/api/MadrugaTech/status-pedidos` | Lista os registros de status |
+| POST | `/api/MadrugaTech/status-pedidos` | Registra uma etapa do pedido para um produtor |
 
-### Exemplo de oferta (POST)
+O formulário de cadastro envia `multipart/form-data` ao endpoint
+`POST /api/produtos` do backend do Broto. O backend salva o produto na API
+NoSQL em JSON e inclui em `imagens` as URLs geradas para as fotos enviadas.
+
+### Exemplo de produto salvo na API NoSQL
 
 ```json
 {
-  "nomeProdutor": "Maria",
-  "produto": "Tomate",
-  "quantidade": 5,
+  "nome": "Tomate",
+  "categoria": "Legume",
   "preco": 4.0,
-  "localizacao": "Sorocaba",
-  "excedente": false
+  "estoque": 5,
+  "unidade": "kg",
+  "excedente": false,
+  "produtor": "Maria",
+  "produtorId": "4ae6e43c-abf1-4faf-90b2-29869cd15775",
+  "local": "Recife, PE",
+  "descricao": "Tomates frescos.",
+  "ativo": true,
+  "imagens": []
 }
+```
