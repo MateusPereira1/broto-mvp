@@ -9,7 +9,7 @@ class BrotoHeader extends HTMLElement {
                 <nav class="site-header__navigation" aria-label="Navegação rápida">
                     <a class="site-header__text-link" href="./marketplace.html">Marketplace</a>
                     <a class="site-header__text-link" href="./mapa-produtores.html">Produtores</a>
-                    <a class="site-header__text-link" href="./acompanhar-pedido.html">Pedidos</a>
+                    <a class="site-header__text-link" href="./meus-pedidos.html">Pedidos</a>
                     <a class="site-header__link" href="./chat.html" aria-label="Conversas" title="Conversas">
                         <img src="../images/chat.svg" alt="">
                     </a>
@@ -42,6 +42,7 @@ class BrotoHeader extends HTMLElement {
                         </section>
                         <section class="navigation-drawer__group" aria-labelledby="navigation-orders-title">
                             <h3 id="navigation-orders-title">Compras e pedidos</h3>
+                            <a href="./meus-pedidos.html">Meus pedidos</a>
                             <a href="./finalizar-compra.html">Finalizar compra</a>
                             <a href="./confirmacao-pedido.html">Confirmação do pedido</a>
                             <a href="./acompanhar-pedido.html">Acompanhar pedido</a>
